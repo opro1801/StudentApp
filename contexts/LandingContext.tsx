@@ -1,4 +1,7 @@
 import React, { useState, useEffect, FC, useContext } from 'react';
+import { Platform, Dimensions } from 'react-native';
+
+const {width, height} = Dimensions.get('window');
 
 interface LandingContextInterface {
     isLoggedIn: boolean;
@@ -8,6 +11,7 @@ interface LandingContextInterface {
     fontSizeSubtitle: number,
     fontSizeLargeText: number,
     fontSizeSmallTitle: number,
+    statusBarHeight: number,
 }
 
 const defaultState = {
@@ -17,6 +21,7 @@ const defaultState = {
     fontSizeLargeText: 14,
     fontSizeSubtitle: 14,
     fontSizeSmallTitle: 16,
+    statusBarHeight: 44,
 };
 
 export const LandingContext = React.createContext<LandingContextInterface>(defaultState);
@@ -26,11 +31,12 @@ export const LandingContextProvider: FC = ({ children }) => {
     const toggleLoggedIn = () => {
         setisLoggedIn(!isLoggedIn);
     }
+    const statusBarHeight = (Platform.OS === 'ios') ? 44 : 0;
     const fontSizeText = 12;
-    const fontSizeTitle = 24;
-    const fontSizeLargeText = 14;
-    const fontSizeSubtitle = 14;
-    const fontSizeSmallTitle = 16;
+    const fontSizeTitle = width < 300 ? 28 : 32;
+    const fontSizeLargeText = width < 300 ? 12 : 14;
+    const fontSizeSubtitle = width < 300 ? 12 : 14;
+    const fontSizeSmallTitle = width < 300 ? 14 : 16;
     return <LandingContext.Provider
         value={{
             isLoggedIn,
@@ -40,6 +46,7 @@ export const LandingContextProvider: FC = ({ children }) => {
             fontSizeLargeText,
             fontSizeSubtitle,
             fontSizeSmallTitle,
+            statusBarHeight,
         }}
     >
         {children}

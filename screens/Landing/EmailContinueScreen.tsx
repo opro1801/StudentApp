@@ -7,12 +7,15 @@ import MailIcon from '../../icons/MailIcon';
 import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import BackButton from '../../components/BackButton';
+import StatusBarBackGround from '../../components/StatusBarBackGround';
 
 const { width, height } = Dimensions.get('window');
 type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "EmailContinueScreen">
 
 const EmailContinueScreen = () => {
     const navigation = useNavigation<authScreenNavigationType>();
+
+    const [isFocus, setisFocus] = useState(true);
 
     const { fontSizeLargeText, fontSizeText, fontSizeTitle, fontSizeSmallTitle } = useLandingContext();
 
@@ -50,22 +53,24 @@ const EmailContinueScreen = () => {
             <View style={styles.inner}>
                 <StatusBar />
                 <View>
+                    <StatusBarBackGround />
                     <BackButton previousPage={previousPage} />
                     <View>
                         <Text style={[styles.header, {fontSize: fontSizeTitle}]}>Continue with Email</Text>
-                        <Text style={[{fontSize: fontSizeText}]}>Please enter your email address to proceed</Text>
+                        <Text style={[{fontSize: fontSizeLargeText}]}>Please enter your email address to proceed</Text>
                     </View>
-                    <View style={styles.inputSection}>
-                        {/* <Image style={{margin: 12,}} source={require('../../assets/Mail.png')} /> */}
+                    <View style={[styles.inputSection, {borderWidth: isFocus ? 1 : 0, borderColor: '#3145F5'}]}>
                         <MailIcon paddingleft={16}/>
                         <TextInput
-                            style={styles.emailInput}
+                            style={[styles.emailInput]}
                             autoCapitalize='none'
                             autoCorrect={false}
                             placeholder="Your email"
                             underlineColorAndroid="transparent"
                             onChangeText={(text) => handleOnChangeText(text)}
                             autoFocus={true}
+                            onFocus={() => setisFocus(true)}
+                            onBlur={() => setisFocus(false)}
                         />
                     </View>
                 </View>
@@ -91,7 +96,6 @@ const styles = StyleSheet.create({
         padding: 24,
         flex: 1,
         justifyContent: "space-between",
-        paddingTop: 68,
     },
     textInput: {
         height: 40,
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#F7F8FB',
         color: '#424242',
-        height: 48,
+        height: 46,
         width: '80%'
     },
     continueButton: {

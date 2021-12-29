@@ -6,6 +6,7 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Dimensions,
 import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import BackButton from '../../components/BackButton';
+import StatusBarBackGround from '../../components/StatusBarBackGround';
 
 const { width, height } = Dimensions.get('window');
 type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "EmailVerification">
@@ -14,7 +15,7 @@ type emailRouteType = RouteProp<AuthStackParamList, "EmailVerification">;
 const EmailVerification = () => {
 
     const navigation = useNavigation<authScreenNavigationType>();
-    const { fontSizeTitle, fontSizeText } = useLandingContext();
+    const { fontSizeTitle, fontSizeText, fontSizeLargeText } = useLandingContext();
     const {
         params: {email}
     } = useRoute<emailRouteType>();
@@ -37,10 +38,11 @@ const EmailVerification = () => {
             <View style={styles.inner}>
                 <StatusBar />
                 <View>
+                    <StatusBarBackGround/>
                     <BackButton previousPage={previousPage} />
                     <View>
                         <Text style={[styles.header, {fontSize: fontSizeTitle}]}>Verify your Email</Text>
-                        <Text style={{fontSize: fontSizeText}}>A verification email has been sent to your email, please open and proceed</Text>
+                        <Text style={{fontSize: fontSizeLargeText}}>A verification email has been sent to your email, please open and proceed</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.continueButton} onPress={nextPage}>
@@ -63,7 +65,6 @@ const styles = StyleSheet.create({
     },
     inner: {
         padding: 24,
-        paddingTop: 68,
         flex: 1,
         justifyContent: "space-between"
     },

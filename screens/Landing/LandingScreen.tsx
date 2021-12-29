@@ -7,6 +7,7 @@ import GoogleButton from '../../components/SignInButton/GoogleButton';
 import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import LandingHeaderText from '../../icons/LandingHeaderText';
+import StatusBarBackGround from '../../components/StatusBarBackGround';
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,11 +16,15 @@ type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "EmailCo
 const LandingScreen = () => {
     const navigation = useNavigation<authScreenNavigationType>();
 
+    const animatedSpeed = 250;
+
+    const { statusBarHeight } = useLandingContext();
+
     const { fontSizeTitle, fontSizeText, fontSizeLargeText } = useLandingContext();
-    const [xValue, setxValue] = useState(new Animated.Value(height/2-24));
+    const [xValue, setxValue] = useState(new Animated.Value(height/2-24-statusBarHeight));
     const [fadeValue, setfadeValue] = useState(new Animated.Value(0));
     const [subFadeValue, setSubFadeValue] = useState(new Animated.Value(0));
-    const [subXValue, setsubXValue] = useState(new Animated.Value(height/2-25))
+    const [subXValue, setsubXValue] = useState(new Animated.Value(height/2-25-statusBarHeight))
     const [loggedIn, setloggedIn] = useState(false);
     const [userInfo, setuserInfo] = useState([]);
     const [buttonXValue, setButtonXValue] = useState(new Animated.Value(-300))
@@ -33,34 +38,34 @@ const LandingScreen = () => {
             }),
             Animated.parallel([
                 Animated.timing(xValue, {
-                    toValue: height/2-35,
-                    duration: 300,
+                    toValue: height/2-35-statusBarHeight,
+                    duration: animatedSpeed,
                     easing: Easing.linear,
                     useNativeDriver: false,
                 }),
                 Animated.timing(subFadeValue, {
                     toValue: 1,
-                    duration: 300,
+                    duration: animatedSpeed,
                     useNativeDriver: false,
                 })
             ]),
-            Animated.delay(300),
+            Animated.delay(animatedSpeed),
             Animated.parallel([
                 Animated.timing(xValue, {
-                    toValue: 150,
-                    duration: 300,
+                    toValue: 150-statusBarHeight,
+                    duration: animatedSpeed,
                     easing: Easing.linear,
                     useNativeDriver: false,
                 }),
                 Animated.timing(subXValue, {
-                    toValue: 160,
-                    duration: 300,
+                    toValue: 160-statusBarHeight,
+                    duration: animatedSpeed,
                     easing: Easing.linear,
                     useNativeDriver: false,
                 }),
                 Animated.timing(buttonXValue, {
                     toValue: 30,
-                    duration: 300,
+                    duration: animatedSpeed,
                     useNativeDriver: false,
                 })
             ]),
@@ -79,6 +84,7 @@ const LandingScreen = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBarBackGround/>
             <View style={{width: '100%', height: '100%', alignItems: 'center'}}>
                     <Animated.View style={[styles.landingHeader, {top: xValue}]}>
                         <LandingHeaderText />
@@ -137,6 +143,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 8,
+        paddingBottom: 24,
     }
 })
 

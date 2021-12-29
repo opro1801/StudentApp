@@ -1,16 +1,18 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Dimensions, KeyboardAvoidingView, Button, Keyboard, Platform, TouchableWithoutFeedback, Alert } from 'react-native';
 import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
+import StatusBarBackGround from '../../components/StatusBarBackGround';
 
 type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "Welcome">
 type welcomeRouteType = RouteProp<AuthStackParamList, "Welcome">;
 
 const WelcomeScreen = () => {
     const [userName, setuserName] = useState<String>('');
+    const [isFocus, setisFocus] = useState(true);
     const { fontSizeTitle, fontSizeText, fontSizeLargeText, fontSizeSmallTitle } = useLandingContext();
     const {
         params: {email}
@@ -23,7 +25,6 @@ const WelcomeScreen = () => {
             Alert.alert("Please enter your name!");
         }
     }
-
     return (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -33,19 +34,22 @@ const WelcomeScreen = () => {
             <View style={styles.inner}>
                 <StatusBar />
                 <View>
+                    <StatusBarBackGround/>
                     <View>
                         <Text style={[styles.header, {fontSize:fontSizeTitle}]}>Welcome!</Text>
-                        <Text style={{fontSize: fontSizeText}}>Seems like you are new here.</Text>
-                        <Text style={{fontSize: fontSizeText}}>Before we begin, please tell us about yourself :)</Text>
+                        <Text style={{fontSize: fontSizeLargeText}}>Seems like you are new here.</Text>
+                        <Text style={{fontSize: fontSizeLargeText}}>Before we begin, please tell us about yourself :)</Text>
                     </View>
                     <View style={styles.nameInputView}>
                         <Text style={[{fontSize: fontSizeLargeText}]}>What is your name?</Text>
                         <TextInput
-                            style={styles.nameInput}
+                            style={[styles.nameInput, {borderWidth: isFocus ? 1 : 0, borderColor: '#3145F5'}]}
                             placeholder="Your name"
                             underlineColorAndroid="transparent"
-                            onChangeText={(text) => setuserName(text)}
+                            onChangeText={(text) => {setuserName(text);}}
                             autoFocus={true}
+                            onFocus={() => setisFocus(true)}
+                            onBlur={() => setisFocus(false)}
                         />
                     </View>
                 </View>
@@ -69,7 +73,6 @@ const styles = StyleSheet.create({
     },
     inner: {
         padding: 24,
-        paddingTop: 48,
         flex: 1,
         justifyContent: "space-between"
     },
@@ -95,6 +98,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#F7F8FB',
         color: '#424242',
         height: 48,
+        // borderWidth: 2,
+        // borderColor: '#3145F5'
+        
     },
     continueButton: {
         borderRadius: 12,
