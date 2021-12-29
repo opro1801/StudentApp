@@ -1,0 +1,44 @@
+import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LandingScreen from './LandingScreen';
+import EmailContinueScreen from './EmailContinueScreen';
+import EmailVerification from './EmailVerification';
+import WelcomeScreen from './WelcomeScreen';
+
+export type AuthStackParamList = {
+  Landing: undefined;
+  EmailContinueScreen: undefined;
+  EmailVerification: {
+    email: string;
+  };
+  Welcome: {
+    email: string
+  };
+}
+
+const Stack = createStackNavigator<AuthStackParamList>();
+
+export default function LandingNavigator() {
+  const [isWelcome, setisWelcome] = useState(false);
+  return (
+    <NavigationContainer>
+      {!isWelcome &&
+      <Stack.Navigator 
+        initialRouteName="Landing"
+        screenOptions={{
+          headerShown: false
+        }}
+      >
+        <Stack.Screen name="Landing" component={LandingScreen} />
+        <Stack.Screen name="EmailContinueScreen" component={EmailContinueScreen} />
+        <Stack.Screen name="EmailVerification" component={EmailVerification} />
+        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      </Stack.Navigator>
+      }
+      {isWelcome &&
+      <WelcomeScreen />
+      }
+  </NavigationContainer>
+  );
+}
