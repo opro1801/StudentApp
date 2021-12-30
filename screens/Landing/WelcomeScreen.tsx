@@ -7,13 +7,13 @@ import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
 import ContinueButton from '../../components/ContinueButton';
+import TextInputFocusEffect from '../../components/TextInputFocusEffect';
 
 // type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "Welcome">
 // type welcomeRouteType = RouteProp<AuthStackParamList, "Welcome">;
 
 const WelcomeScreen = () => {
     const [userName, setuserName] = useState<string>('');
-    const [isFocus, setisFocus] = useState(true);
     const { fontSizeTitle, fontSizeText, fontSizeLargeText, fontSizeSmallTitle } = useLandingContext();
     // const {
     //     params: {email}
@@ -44,15 +44,7 @@ const WelcomeScreen = () => {
                     </View>
                     <View style={styles.nameInputView}>
                         <Text style={[{fontSize: fontSizeLargeText}]}>What is your name?</Text>
-                        <TextInput
-                            style={[styles.nameInput, {borderWidth: isFocus ? 1 : 0, borderColor: '#3145F5'}]}
-                            placeholder="Your name"
-                            underlineColorAndroid="transparent"
-                            onChangeText={(text) => {setuserName(text);}}
-                            autoFocus={true}
-                            onFocus={() => setisFocus(true)}
-                            onBlur={() => setisFocus(false)}
-                        />
+                        <TextInputFocusEffect setuserName={setuserName} userName={userName}/>
                     </View>
                 </View>
                 <ContinueButton isValidInfo={(userName) => userName !== ""} userInfo={userName} buttonText="Complete Registration" nextPage={completeRegistration}/>
@@ -86,14 +78,6 @@ const styles = StyleSheet.create({
     },
     nameInputView: {
         marginTop: 24,
-    },
-    nameInput: {
-        marginTop: 12,
-        padding: 12,
-        borderRadius: 12,
-        backgroundColor: '#F7F8FB',
-        color: '#424242',
-        height: 48,
     },
 })
 
