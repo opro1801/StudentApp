@@ -8,13 +8,13 @@ import { useLandingContext } from '../../contexts/LandingContext';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
 import ContinueButton from '../../components/ContinueButton';
 import TextInputFocusEffect from '../../components/TextInputFocusEffect';
+import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
 
 // type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "Welcome">
 // type welcomeRouteType = RouteProp<AuthStackParamList, "Welcome">;
 
 const WelcomeScreen = () => {
     const [userName, setuserName] = useState<string>('');
-    const { fontSizeTitle, fontSizeText, fontSizeLargeText, fontSizeSmallTitle } = useLandingContext();
     // const {
     //     params: {email}
     // } = useRoute<welcomeRouteType>();
@@ -38,12 +38,12 @@ const WelcomeScreen = () => {
                 <View>
                     <StatusBarBackGround/>
                     <View>
-                        <Text style={[styles.header, {fontSize:fontSizeTitle}]}>Welcome!</Text>
-                        <Text style={{fontSize: fontSizeLargeText}}>Seems like you are new here.</Text>
-                        <Text style={{fontSize: fontSizeLargeText}}>Before we begin, please tell us about yourself :)</Text>
+                        <Text style={[styles.header, {fontSize: StyleSheetLibrary.fontSizeBigTitle}]}>Welcome!</Text>
+                        <Text style={{fontSize: StyleSheetLibrary.fontSizeBigText}}>Seems like you are new here.</Text>
+                        <Text style={{fontSize: StyleSheetLibrary.fontSizeBigText}}>Before we begin, please tell us about yourself :)</Text>
                     </View>
                     <View style={styles.nameInputView}>
-                        <Text style={[{fontSize: fontSizeLargeText}]}>What is your name?</Text>
+                        <Text style={[{fontSize: StyleSheetLibrary.fontSizeBigText}]}>What is your name?</Text>
                         <TextInputFocusEffect setuserName={setuserName} userName={userName}/>
                     </View>
                 </View>

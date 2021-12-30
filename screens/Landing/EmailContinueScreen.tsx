@@ -9,6 +9,7 @@ import { useLandingContext } from '../../contexts/LandingContext';
 import BackButton from '../../components/BackButton';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
 import ContinueButton from '../../components/ContinueButton';
+import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
 
 const { width, height } = Dimensions.get('window');
 type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "EmailContinueScreen">
@@ -17,8 +18,6 @@ const EmailContinueScreen = () => {
     const navigation = useNavigation<authScreenNavigationType>();
 
     const [isFocus, setisFocus] = useState(true);
-
-    const { fontSizeLargeText, fontSizeText, fontSizeTitle, fontSizeSmallTitle } = useLandingContext();
 
     const [userEmail, setuserEmail] = useState<string>('');
 
@@ -57,8 +56,8 @@ const EmailContinueScreen = () => {
                     <StatusBarBackGround />
                     <BackButton previousPage={previousPage} />
                     <View>
-                        <Text style={[styles.header, {fontSize: fontSizeTitle}]}>Continue with Email</Text>
-                        <Text style={[{fontSize: fontSizeLargeText}]}>Please enter your email address to proceed</Text>
+                        <Text style={[styles.header, {fontSize: StyleSheetLibrary.fontSizeBigTitle}]}>Continue with Email</Text>
+                        <Text style={[{fontSize: StyleSheetLibrary.fontSizeBigText}]}>Please enter your email address to proceed</Text>
                     </View>
                     <View style={[styles.inputSection, {borderWidth: isFocus ? 1 : 0, borderColor: '#3145F5'}]}>
                         <MailIcon paddingleft={16}/>

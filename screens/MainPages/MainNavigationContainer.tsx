@@ -45,7 +45,10 @@ export default function MainNavigationContainer() {
           tabBarActiveTintColor: 'tomato',
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: {
-              backgroundColor: 'rgba(220,220,220,0.3)'
+              backgroundColor: 'rgba(220,220,220,0.3)',
+              height: 90,
+              justifyContent: 'space-evenly',
+              paddingHorizontal: 24,
           },
           tabBarBackground: () => <BlurView tint='light' intensity={24} style={{backgroundColor: 'rgba(255,255,255,0.88)'}} />
         })}

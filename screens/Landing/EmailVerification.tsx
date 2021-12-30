@@ -7,6 +7,7 @@ import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import BackButton from '../../components/BackButton';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
+import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
 
 const { width, height } = Dimensions.get('window');
 type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "EmailVerification">
@@ -15,7 +16,7 @@ type emailRouteType = RouteProp<AuthStackParamList, "EmailVerification">;
 const EmailVerification = () => {
 
     const navigation = useNavigation<authScreenNavigationType>();
-    const { fontSizeTitle, fontSizeText, fontSizeLargeText, toggleIsWelcome, isWelcome } = useLandingContext();
+    const { toggleIsWelcome, isWelcome } = useLandingContext();
     const {
         params: {email}
     } = useRoute<emailRouteType>();
@@ -39,16 +40,16 @@ const EmailVerification = () => {
                     <StatusBarBackGround/>
                     <BackButton previousPage={previousPage} />
                     <View>
-                        <Text style={[styles.header, {fontSize: fontSizeTitle}]}>Verify your Email</Text>
-                        <Text style={{fontSize: fontSizeLargeText}}>A verification email has been sent to your email, please open and proceed</Text>
+                        <Text style={[styles.header, {fontSize: StyleSheetLibrary.fontSizeBigTitle}]}>Verify your Email</Text>
+                        <Text style={{fontSize: StyleSheetLibrary.fontSizeBigText}}>A verification email has been sent to your email, please open and proceed</Text>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.continueButton} onPress={toggleIsWelcome}>
                     <Text style={styles.continueButtonText}>Continue</Text>
                 </TouchableOpacity>
                 <View style={{justifyContent: 'space-around', height: 36}}>
-                    <Text style={{fontSize: fontSizeText}}>Having trouble logging in?</Text>
-                    <Text style={{fontSize: fontSizeText}}>Please contact <Text style={styles.contactEmail} onPress={() => {}}>cs@fantasktic.io</Text></Text>
+                    <Text style={{fontSize: StyleSheetLibrary.fontSizeText}}>Having trouble logging in?</Text>
+                    <Text style={{fontSize: StyleSheetLibrary.fontSizeText}}>Please contact <Text style={styles.contactEmail} onPress={() => {}}>cs@fantasktic.io</Text></Text>
                 </View>
             </View>
           </TouchableWithoutFeedback>

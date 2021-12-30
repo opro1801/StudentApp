@@ -6,11 +6,6 @@ const {width, height} = Dimensions.get('window');
 interface LandingContextInterface {
     isLoggedIn: boolean;
     toggleLoggedIn?: () => void;
-    fontSizeText: number,
-    fontSizeTitle: number,
-    fontSizeSubtitle: number,
-    fontSizeLargeText: number,
-    fontSizeSmallTitle: number,
     statusBarHeight: number,
     isWelcome: boolean,
     toggleIsWelcome?: () => void;
@@ -18,11 +13,6 @@ interface LandingContextInterface {
 
 const defaultState = {
     isLoggedIn: false,
-    fontSizeText: 12,
-    fontSizeTitle: 24,
-    fontSizeLargeText: 14,
-    fontSizeSubtitle: 14,
-    fontSizeSmallTitle: 16,
     statusBarHeight: 44,
     isWelcome: false,
 };
@@ -48,11 +38,6 @@ export const LandingContextProvider: FC = ({ children }) => {
         value={{
             isLoggedIn,
             toggleLoggedIn,
-            fontSizeText,
-            fontSizeTitle,
-            fontSizeLargeText,
-            fontSizeSubtitle,
-            fontSizeSmallTitle,
             statusBarHeight,
             isWelcome,
             toggleIsWelcome,

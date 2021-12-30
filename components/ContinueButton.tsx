@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { useLandingContext } from '../contexts/LandingContext';
+import StyleSheetLibrary from '../stylesheet/StyleSheetLibrary';
 
 interface ContinueButtonProps {
     buttonText: string;
@@ -11,15 +12,14 @@ interface ContinueButtonProps {
 }
 
 const ContinueButton = ({isValidInfo, userInfo, nextPage, buttonText}: ContinueButtonProps) => {
-
-    const { fontSizeSmallTitle } = useLandingContext();
+    
     return (
         <TouchableOpacity 
         style={[styles.continueButton, {backgroundColor: isValidInfo(userInfo) ? '#3145F5' : '#D0D0D7'}]} 
         onPress={nextPage}
         disabled={isValidInfo(userInfo) ? false : true}
         >
-            <Text style={[styles.continueButtonText, { fontSize: fontSizeSmallTitle }]}>{buttonText}</Text>
+            <Text style={[styles.continueButtonText, { fontSize: StyleSheetLibrary.fontSizeSmallTitle }]}>{buttonText}</Text>
         </TouchableOpacity>
     );
 };

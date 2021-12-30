@@ -3,12 +3,11 @@ import { TouchableOpacity, Image, StyleSheet, Dimensions, Text } from 'react-nat
 import * as GoogleSignIn from 'expo-google-sign-in';
 import GoogleIcon from '../../icons/GoogleIcon';
 import { useLandingContext } from '../../contexts/LandingContext';
+import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
 
 const {width} = Dimensions.get('window');
 
 const GoogleButton = () => {
-
-    const { fontSizeLargeText } = useLandingContext();
 
     // React.useEffect(()=> {
     //     initAsync();
@@ -65,7 +64,7 @@ const GoogleButton = () => {
         >   
             <GoogleIcon />
             {/* <Image style={styles.googleLogo} source={require("../../assets/GoogleLogo.png")}/> */}
-            <Text style={[styles.googleText, {fontSize: fontSizeLargeText}]}>Continue with Google</Text>
+            <Text style={[styles.googleText, {fontSize: StyleSheetLibrary.fontSizeBigText}]}>Continue with Google</Text>
         </TouchableOpacity>
     )    
 }

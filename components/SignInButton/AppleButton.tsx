@@ -6,11 +6,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SvgProps, Path, SvgUri } from "react-native-svg"
 import AppleIcon from '../../icons/AppleIcon';
 import { useLandingContext } from '../../contexts/LandingContext';
+import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
 
 const {width, height} = Dimensions.get('window');
 
 const AppleButton = () => {
-    const { fontSizeLargeText } = useLandingContext();
     const signInWithApple = async () => {
         try {
             const credential = await AppleAuthentication.signInAsync({
@@ -31,7 +31,7 @@ const AppleButton = () => {
     return (
         <TouchableOpacity onPress={signInWithApple} style={styles.appleButton}>
             <AppleIcon height={24} width={24}/>
-            <Text style={[styles.appleText, {fontSize: fontSizeLargeText}]}>Continue with Apple</Text>
+            <Text style={[styles.appleText, {fontSize: StyleSheetLibrary.fontSizeBigText}]}>Continue with Apple</Text>
         </TouchableOpacity>
     )
 }

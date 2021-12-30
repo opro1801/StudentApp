@@ -8,6 +8,7 @@ import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import LandingHeaderText from '../../icons/LandingHeaderText';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
+import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,8 +20,7 @@ const LandingScreen = () => {
     const animatedSpeed = 250;
 
     const { statusBarHeight } = useLandingContext();
-
-    const { fontSizeTitle, fontSizeText, fontSizeLargeText } = useLandingContext();
+    
     const [xValue, setxValue] = useState(new Animated.Value(height/2-24-statusBarHeight));
     const [fadeValue, setfadeValue] = useState(new Animated.Value(0));
     const [subFadeValue, setSubFadeValue] = useState(new Animated.Value(0));
@@ -90,7 +90,7 @@ const LandingScreen = () => {
                         <LandingHeaderText />
                     </Animated.View> 
                     <Animated.Text
-                        style={[styles.landingSubheader, {top: subXValue, opacity: subFadeValue, fontSize: fontSizeLargeText}]}
+                        style={[styles.landingSubheader, {top: subXValue, opacity: subFadeValue, fontSize: StyleSheetLibrary.fontSizeBigText}]}
                     >
                         AI-Powered Personalised Learning
                     </Animated.Text>
@@ -98,7 +98,7 @@ const LandingScreen = () => {
                         <GoogleButton />
                         <AppleButton />
                         <TouchableOpacity onPress={continueWithEmail}>
-                            <Text style={[styles.emailButton, {fontSize: fontSizeText}]}>
+                            <Text style={[styles.emailButton, {fontSize: StyleSheetLibrary.fontSizeText}]}>
                             or continue with email
                             </Text>
                         </TouchableOpacity>
