@@ -6,12 +6,13 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Dimensions,
 import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
+import ContinueButton from '../../components/ContinueButton';
 
 // type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "Welcome">
 // type welcomeRouteType = RouteProp<AuthStackParamList, "Welcome">;
 
 const WelcomeScreen = () => {
-    const [userName, setuserName] = useState<String>('');
+    const [userName, setuserName] = useState<string>('');
     const [isFocus, setisFocus] = useState(true);
     const { fontSizeTitle, fontSizeText, fontSizeLargeText, fontSizeSmallTitle } = useLandingContext();
     // const {
@@ -25,6 +26,7 @@ const WelcomeScreen = () => {
             Alert.alert("Please enter your name!");
         }
     }
+
     return (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -53,13 +55,7 @@ const WelcomeScreen = () => {
                         />
                     </View>
                 </View>
-                <TouchableOpacity 
-                    style={[styles.continueButton, {backgroundColor: userName !== "" ? '#3145F5' : '#D0D0D7'}]} 
-                    onPress={completeRegistration}
-                    disabled={userName !== "" ? false : true}
-                >
-                    <Text style={[styles.continueButtonText, {fontSize: fontSizeSmallTitle}]}>Complete Registration</Text>
-                </TouchableOpacity>
+                <ContinueButton isValidInfo={(userName) => userName !== ""} userInfo={userName} buttonText="Complete Registration" nextPage={completeRegistration}/>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -98,24 +94,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F7F8FB',
         color: '#424242',
         height: 48,
-        // borderWidth: 2,
-        // borderColor: '#3145F5'
-        
     },
-    continueButton: {
-        borderRadius: 12,
-        height: 48,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 12,
-    },
-    continueButtonText: {
-        color: 'white',
-        fontWeight: '600',
-        lineHeight: 24,
-        textAlign: 'center',
-    }
 })
 
 export default WelcomeScreen;

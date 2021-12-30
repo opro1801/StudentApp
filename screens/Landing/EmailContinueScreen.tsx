@@ -8,6 +8,7 @@ import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import BackButton from '../../components/BackButton';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
+import ContinueButton from '../../components/ContinueButton';
 
 const { width, height } = Dimensions.get('window');
 type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "EmailContinueScreen">
@@ -74,13 +75,7 @@ const EmailContinueScreen = () => {
                         />
                     </View>
                 </View>
-                <TouchableOpacity 
-                style={[styles.continueButton, {backgroundColor: isValidEmail(userEmail) ? '#3145F5' : '#D0D0D7'}]} 
-                onPress={nextPage}
-                disabled={isValidEmail(userEmail) ? false : true}
-                >
-                    <Text style={[styles.continueButtonText, { fontSize: fontSizeSmallTitle }]}>Continue</Text>
-                </TouchableOpacity>
+                <ContinueButton isValidInfo={isValidEmail} userInfo={userEmail} nextPage={nextPage} buttonText='Continue' />
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -135,20 +130,6 @@ const styles = StyleSheet.create({
         height: 46,
         width: '80%'
     },
-    continueButton: {
-        borderRadius: 12,
-        height: 48,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    continueButtonText: {
-        color: 'white',
-        fontWeight: '600',
-        fontSize: 16,
-        lineHeight: 24,
-        textAlign: 'center',
-    }
 })
 
 export default EmailContinueScreen;
