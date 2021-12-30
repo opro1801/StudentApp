@@ -9,9 +9,9 @@ import MainNavigationContainer from './screens/MainPages/MainNavigationContainer
 
 export default function App() {
   return (
-      <LandingContextProvider>
-        <LandingNavigator />
-      </LandingContextProvider>
-      // <MainNavigationContainer />
+      // <LandingContextProvider>
+      //   <LandingNavigator />
+      // </LandingContextProvider>
+      <MainNavigationContainer />
       );
     }

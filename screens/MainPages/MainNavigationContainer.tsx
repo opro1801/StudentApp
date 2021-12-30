@@ -26,7 +26,7 @@ export default function MainNavigationContainer() {
           tabBarIcon: ({ focused, color, size }) => {
             switch (route.name) {
                 case 'Home':
-                    return <HomeIcon />
+                    return <HomeIcon color='red'/>
                     break;
                 case 'Tasks':
                     return <TasksIcon />
@@ -42,15 +42,22 @@ export default function MainNavigationContainer() {
                     break;
             }
           },
-          tabBarActiveTintColor: 'tomato',
+          tabBarActiveTintColor: '#3145F5',
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: {
-              backgroundColor: 'rgba(220,220,220,0.3)',
-              height: 90,
+              backgroundColor: '#ffffff',
+            //   height: 74,
               justifyContent: 'space-evenly',
               paddingHorizontal: 24,
+              paddingVertical: 8,
+              shadowRadius: 24,
+              shadowColor: '#ffffff',
+              shadowOffset: { width: 0, height: 1},
+              shadowOpacity: 0.88,
           },
-          tabBarBackground: () => <BlurView tint='light' intensity={24} style={{backgroundColor: 'rgba(255,255,255,0.88)'}} />
+          tabBarBackground: () => 
+          <BlurView tint='light' intensity={24} style={{backgroundColor: 'rgba(255,255,255,0.88)'}} />,
+          headerShown: false,
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />

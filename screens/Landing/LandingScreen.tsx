@@ -6,9 +6,9 @@ import AppleButton from '../../components/SignInButton/AppleButton';
 import GoogleButton from '../../components/SignInButton/GoogleButton';
 import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
-import LandingHeaderText from '../../icons/LandingHeaderText';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
 import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
+import FantaskticIcon from '../../icons/FantaskticIcon';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,7 +20,7 @@ const LandingScreen = () => {
     const animatedSpeed = 250;
 
     const { statusBarHeight } = useLandingContext();
-    
+
     const [xValue, setxValue] = useState(new Animated.Value(height/2-24-statusBarHeight));
     const [fadeValue, setfadeValue] = useState(new Animated.Value(0));
     const [subFadeValue, setSubFadeValue] = useState(new Animated.Value(0));
@@ -87,7 +87,7 @@ const LandingScreen = () => {
             <StatusBarBackGround/>
             <View style={{width: '100%', height: '100%', alignItems: 'center'}}>
                     <Animated.View style={[styles.landingHeader, {top: xValue}]}>
-                        <LandingHeaderText />
+                        <FantaskticIcon />
                     </Animated.View> 
                     <Animated.Text
                         style={[styles.landingSubheader, {top: subXValue, opacity: subFadeValue, fontSize: StyleSheetLibrary.fontSizeBigText}]}
