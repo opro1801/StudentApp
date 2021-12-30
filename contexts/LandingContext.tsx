@@ -12,6 +12,8 @@ interface LandingContextInterface {
     fontSizeLargeText: number,
     fontSizeSmallTitle: number,
     statusBarHeight: number,
+    isWelcome: boolean,
+    toggleIsWelcome?: () => void;
 }
 
 const defaultState = {
@@ -22,6 +24,7 @@ const defaultState = {
     fontSizeSubtitle: 14,
     fontSizeSmallTitle: 16,
     statusBarHeight: 44,
+    isWelcome: false,
 };
 
 export const LandingContext = React.createContext<LandingContextInterface>(defaultState);
@@ -37,6 +40,10 @@ export const LandingContextProvider: FC = ({ children }) => {
     const fontSizeLargeText = width < 300 ? 12 : 14;
     const fontSizeSubtitle = width < 300 ? 12 : 14;
     const fontSizeSmallTitle = width < 300 ? 14 : 16;
+    const [isWelcome, setisWelcome] = useState(false);
+    const toggleIsWelcome = () => {
+        setisWelcome(!isWelcome);
+    }
     return <LandingContext.Provider
         value={{
             isLoggedIn,
@@ -47,6 +54,8 @@ export const LandingContextProvider: FC = ({ children }) => {
             fontSizeSubtitle,
             fontSizeSmallTitle,
             statusBarHeight,
+            isWelcome,
+            toggleIsWelcome,
         }}
     >
         {children}

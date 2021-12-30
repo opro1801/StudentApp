@@ -15,20 +15,18 @@ type emailRouteType = RouteProp<AuthStackParamList, "EmailVerification">;
 const EmailVerification = () => {
 
     const navigation = useNavigation<authScreenNavigationType>();
-    const { fontSizeTitle, fontSizeText, fontSizeLargeText } = useLandingContext();
+    const { fontSizeTitle, fontSizeText, fontSizeLargeText, toggleIsWelcome, isWelcome } = useLandingContext();
     const {
         params: {email}
     } = useRoute<emailRouteType>();
 
     const nextPage = () => {
-        navigation.navigate("Welcome", {
-            email: email,
-        });
+        toggleIsWelcome;
     }
     const previousPage = () => {
         navigation.navigate("EmailContinueScreen");
     }
-    console.log(email);
+    console.log(isWelcome);
     return (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -45,7 +43,7 @@ const EmailVerification = () => {
                         <Text style={{fontSize: fontSizeLargeText}}>A verification email has been sent to your email, please open and proceed</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.continueButton} onPress={nextPage}>
+                <TouchableOpacity style={styles.continueButton} onPress={toggleIsWelcome}>
                     <Text style={styles.continueButtonText}>Continue</Text>
                 </TouchableOpacity>
                 <View style={{justifyContent: 'space-around', height: 36}}>

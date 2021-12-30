@@ -7,16 +7,16 @@ import { AuthStackParamList } from './LandingNavigator';
 import { useLandingContext } from '../../contexts/LandingContext';
 import StatusBarBackGround from '../../components/StatusBarBackGround';
 
-type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "Welcome">
-type welcomeRouteType = RouteProp<AuthStackParamList, "Welcome">;
+// type authScreenNavigationType = StackNavigationProp<AuthStackParamList, "Welcome">
+// type welcomeRouteType = RouteProp<AuthStackParamList, "Welcome">;
 
 const WelcomeScreen = () => {
     const [userName, setuserName] = useState<String>('');
     const [isFocus, setisFocus] = useState(true);
     const { fontSizeTitle, fontSizeText, fontSizeLargeText, fontSizeSmallTitle } = useLandingContext();
-    const {
-        params: {email}
-    } = useRoute<welcomeRouteType>();
+    // const {
+    //     params: {email}
+    // } = useRoute<welcomeRouteType>();
     
     const completeRegistration = () => {
         if(userName !== '') {
