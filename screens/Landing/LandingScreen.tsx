@@ -87,7 +87,7 @@ const LandingScreen = () => {
             <StatusBarBackGround/>
             <View style={{width: '100%', height: '100%', alignItems: 'center'}}>
                     <Animated.View style={[styles.landingHeader, {top: xValue}]}>
-                        <FantaskticIcon />
+                        <FantaskticIcon width={240}/>
                     </Animated.View> 
                     <Animated.Text
                         style={[styles.landingSubheader, {top: subXValue, opacity: subFadeValue, fontSize: StyleSheetLibrary.fontSizeBigText}]}
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     landingHeader: {
-        width: '100%',
+        width: '50%',
         height: 48,
         justifyContent: 'center',
         alignItems: 'center',

@@ -13,6 +13,9 @@ import CoursesScreen from './CoursesScreen';
 import ProfileScreen from './ProfileScreen';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BlurView } from 'expo-blur';
+import NotificationScreen from './NotificationScreen';
+import HomeStackNavigator from './HomeStackNavigator';
+import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
 
 
 const Tab = createBottomTabNavigator();
@@ -25,18 +28,20 @@ export default function MainNavigationContainer() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             switch (route.name) {
-                case 'Home':
-                    return <HomeIcon color='red'/>
+                case 'HomeStack':
+                    return <HomeIcon color={focused ? '#3145F5' : '#B0B6BB'}/>
                     break;
                 case 'Tasks':
-                    return <TasksIcon />
+                    return <TasksIcon color={focused ? '#3145F5' : '#B0B6BB'}/>
                     break;
                 case 'Courses':
-                    return <CoursesIcon />
+                    return <CoursesIcon color={focused ? '#3145F5' : '#B0B6BB'}/>
                     break;
                 case 'Profile':
-                    return <ProfileIcon />
+                    return <ProfileIcon color={focused ? '#3145F5' : '#B0B6BB'}/>
                     break;
+                // case 'Notification':
+                //     return <NotificationScreen />
                 default:
                     return <HomeIcon/>
                     break;
@@ -45,22 +50,29 @@ export default function MainNavigationContainer() {
           tabBarActiveTintColor: '#3145F5',
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: {
-              backgroundColor: '#ffffff',
+              backgroundColor: 'rgba(255,255,255,0.88)',
             //   height: 74,
               justifyContent: 'space-evenly',
               paddingHorizontal: 24,
               paddingVertical: 8,
-              shadowRadius: 24,
-              shadowColor: '#ffffff',
-              shadowOffset: { width: 0, height: 1},
-              shadowOpacity: 0.88,
+            //   shadowRadius: 24,
+            //   shadowColor: '#ffffff',
+            //   shadowOffset: { width: 0, height: 1},
+            //   shadowOpacity: 0.88,
           },
-          tabBarBackground: () => 
-          <BlurView tint='light' intensity={24} style={{backgroundColor: 'rgba(255,255,255,0.88)'}} />,
+        //   tabBarBackground: () => {
+        //       <View style={{backgroundColor: 'rgba(255,255,255,0.88'}} />
+        //   },
+        //   tabBarBackground: () => 
+        //   <BlurView tint='light' intensity={4} style={{backgroundColor: 'rgba(255,255,255,0.88)'}} />,
           headerShown: false,
+          tabBarLabelStyle: {
+              fontSize: StyleSheetLibrary.fontSizeSmallText,
+              fontWeight: '300',
+          }
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="HomeStack" component={HomeStackNavigator} />
         <Tab.Screen name="Tasks" component={TasksScreen} />
         <Tab.Screen name="Courses" component={CoursesScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />

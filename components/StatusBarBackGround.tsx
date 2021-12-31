@@ -14,9 +14,10 @@ const StatusBarBackGround = () => {
 const styles = StyleSheet.create({
     statusBarBackGround: {
         height: (Platform.OS === 'ios') ? 44 : 0,
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255,255,255,0.88)',
     }
 })
 
+export const headerIgnore = (Platform.OS === 'ios') ? (44 + 56) : 56;
 
 export default StatusBarBackGround;

@@ -7,9 +7,10 @@ import TaskCard from './TaskCard';
 
 const TasksContainer = () => {
     const classList = [
-        {subject: 'Mathematics', className: 'Group 5'},
-        {subject: 'Physics', className: 'F5'}
+        {subject: 'Mathematics', className: '1.2 - More About Probability', time:'2021-12-31T09:54:33Z'},
+        {subject: 'Physics', className: 'F5', time:'2021-12-31T09:54:33Z'}
     ]
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Upcoming Tasks</Text>
@@ -20,7 +21,7 @@ const TasksContainer = () => {
                     data={classList}
                     renderItem={({ item }) => {
                         return (
-                            <TaskCard courseName={item.subject} taskName={item.className} />
+                            <TaskCard courseName={item.subject} taskName={item.className} date={item.time}/>
                         )
                     }}
                     keyExtractor={item => `${item.subject} - ${item.className}`}
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
         paddingHorizontal: 24,
         justifyContent: 'space-between',
-        height: 190,
+        height: 162,
         width: '100%',
         backgroundColor: '#ffffff',
         marginBottom: 16,
