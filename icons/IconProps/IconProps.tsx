@@ -3,4 +3,5 @@ export interface IconProps {
     width?: number,
     height?: number,
     paddingleft?: number,
+    strokeColor?: string;
 }

@@ -2,13 +2,14 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
 interface HasNoticeProps {
-    notificationNumber: number;
+    payload: number;
+    size?: number
 }
 
-const HasNotice: React.FC<HasNoticeProps> = ({notificationNumber}) => {
+const NumberIndicator: React.FC<HasNoticeProps> = ({payload, size=16}) => {
     return (
-        <View style={styles.circle}>
-            <Text style={styles.number}>{notificationNumber}</Text>
+        <View style={[styles.circle, {width: size, height: size, borderRadius: size}]}>
+            <Text style={styles.number}>{payload}</Text>
         </View>
     )
 }
@@ -16,9 +17,6 @@ const HasNotice: React.FC<HasNoticeProps> = ({notificationNumber}) => {
 const styles = StyleSheet.create({
     circle: {
         backgroundColor: '#3145F5',
-        borderRadius: 24,
-        width: 16,
-        height: 16,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -30,4 +28,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default HasNotice;
+export default NumberIndicator;

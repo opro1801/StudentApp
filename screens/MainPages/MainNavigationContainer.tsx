@@ -7,15 +7,15 @@ import HomeIcon from '../../icons/HomeIcon';
 import CoursesIcon from '../../icons/CoursesIcon';
 import TasksIcon from '../../icons/TasksIcon';
 import ProfileIcon from '../../icons/ProfileIcon';
-import HomeScreen from './HomeScreen';
-import TasksScreen from './TasksScreen';
-import CoursesScreen from './CoursesScreen';
-import ProfileScreen from './ProfileScreen';
+import HomeScreen from './Home/HomeScreen';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BlurView } from 'expo-blur';
-import NotificationScreen from './NotificationScreen';
-import HomeStackNavigator from './HomeStackNavigator';
+import NotificationScreen from './Home/NotificationScreen';
 import StyleSheetLibrary from '../../stylesheet/StyleSheetLibrary';
+import HomeStackNavigator from './Home/HomeStackNavigator';
+import TasksScreen from './Tasks/TasksScreen';
+import CoursesScreen from './Courses/CoursesScreen';
+import ProfileScreen from './Profile/ProfileScreen';
 
 
 const Tab = createBottomTabNavigator();

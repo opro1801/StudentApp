@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import CalendarIcon from '../../../icons/CalendarIcon';
 import FantaskticIcon from '../../../icons/FantaskticIcon';
 import RightArrowButtonIcon from '../../../icons/RightArrowButtonIcon';
 import StyleSheetLibrary from '../../../stylesheet/StyleSheetLibrary';
+import CircularProgress from '../../CircularProgress';
 
-interface TaskCardProps {
+interface CompletedTaskCardProps {
     courseName: string;
     taskName: string;
     date: string;
@@ -13,6 +15,7 @@ interface TaskCardProps {
     marginBottom?: number;
     isDue?: boolean;
     keyName?: string;
+    progress?: number;
 }
 
 const yyyymmdd = ( date: string ) => {
@@ -33,35 +36,29 @@ const getMonth = (time: string) => {
     return (new Date(time)).getMonth()+1;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ courseName, taskName, date, fillContainer=false, marginBottom = 0, isDue=false }) => {
+const CompletedTaskCard: React.FC<CompletedTaskCardProps> = ({ courseName, taskName, date, fillContainer=false, marginBottom = 0, progress=1}) => {
     return (
         <View style={[styles.container, {width: fillContainer ? '100%' : 280, marginBottom: marginBottom}]}>
-            <View style={styles.timeBox}>
-                <Text style={[styles.dateText, {color: isDue ? '#FB504D' : 'black'}]}>
-                    {getDate(date)}<Text style={styles.monthText}>/{getMonth(date)}</Text>
-                </Text>
-                <Text style={styles.dayText}>
-                    {getDay(date)}
-                </Text>
-            </View>
             <View style={styles.content}>
-                <Text style={styles.courseText}>
-                    {courseName}
-                </Text>
-                <Text style={styles.taskText}>
-                    {taskName}
-                </Text>
+                <Text style={styles.courseName}>{courseName}</Text>
+                <View style={{minHeight: 48}}>
+                    <Text style={styles.taskName}>{taskName}</Text>
+                </View>
+                <View style={styles.timeBox}>
+                    <CalendarIcon />
+                    <Text style={styles.timeText}>{getDate(date) < 10 ? '0' : ''}{getDate(date)}/{getMonth(date) < 10 ? '0' : ''}{getMonth(date)}</Text>
+                </View>
             </View>
-            <TouchableOpacity>
-                <RightArrowButtonIcon />
-            </TouchableOpacity>
+            <View style={{marginLeft: 12}}>
+                <CircularProgress progress={0.5} />
+            </View>
         </View>
     )
 };
 
 const styles = StyleSheet.create({
     container: {
-        minHeight: 92,
+        minHeight: 112,
         borderRadius: 8,
         borderColor: 'rgba(0, 0, 0, 0.02)',
         borderWidth: 2,
@@ -71,49 +68,31 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#ffffff'
     },
-    subject: {
-        width: '100%',
-        fontSize: StyleSheetLibrary.fontSizeSmallTitle,
-        color: '#3145F5',
-        fontWeight: '600',
-        lineHeight: 22,
-    },
-    className: {
-        lineHeight: 18,
-        fontSize: StyleSheetLibrary.fontSizeText
-    },
-    timeBox: {
-        width: 40,
-        height: 36,
-    },
     content: {
-        width: 168,
+        flex: 1,
+        height: '100%',
     },
-    dateText: {
-        fontSize: StyleSheetLibrary.fontSizeBigText,
+    courseName: {
+        fontSize: StyleSheetLibrary.fontSizeSmallText,
         fontWeight: '600',
-        textAlign: 'center',
-    },
-    monthText: {
-        fontSize: StyleSheetLibrary.fontSizeSmallText,
-        fontWeight: '400',
-    },
-    dayText: {
-        fontSize: StyleSheetLibrary.fontSizeSmallText,
-        textAlign: 'center',
-        color: '#B0B6BB',
-    },
-    courseText: {
-        fontSize: StyleSheetLibrary.fontSizeSmallText,
         lineHeight: 16,
-        color: '#3145F5',
-        fontWeight: '600',
+        color: '#0C69FF',
     },
-    taskText: {
+    taskName: {
         fontSize: StyleSheetLibrary.fontSizeBigText,
         fontWeight: '600',
         lineHeight: 20,
+    },
+    timeBox: {
+        flexDirection: 'row',
+        width: 47,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    timeText: {
+        fontSize: StyleSheetLibrary.fontSizeSmallText,
+        color: '#A0A1AF'
     }
 })
 
-export default TaskCard;
+export default CompletedTaskCard;

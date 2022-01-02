@@ -2,16 +2,16 @@ import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, Platform, Dimensions } from "react-native";
-import ClassContainer from "../../components/Home/ClassesList/ClassContainer";
-import GreetingWithStatistics from "../../components/Home/Greeting/GreetingWithStatistics";
-import HomeHeader from "../../components/Home/Greeting/HomeHeader";
-import TasksContainer from "../../components/Home/Tasks/TasksContainer";
-import StatusBarBackGround from "../../components/StatusBarBackGround";
-import FantaskticIcon from "../../icons/FantaskticIcon";
-import NotificationIcon from "../../icons/NotificationIcon";
+import GreetingWithStatistics from "../../../components/Home/Greeting/GreetingWithStatistics";
+import HomeHeader from "../../../components/Home/Greeting/HomeHeader";
+import TasksContainer from "../../../components/Home/Tasks/TasksContainer";
+import StatusBarBackGround from "../../../components/StatusBarBackGround";
+import FantaskticIcon from "../../../icons/FantaskticIcon";
+import NotificationIcon from "../../../icons/NotificationIcon";
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { HomeStackParamList } from "./HomeStackNavigator";
 import { useNavigation } from '@react-navigation/native';
+import ClassContainer from "../../../components/Home/ClassesList/ClassContainer";
 
 type homeScreenNavigationType = StackNavigationProp<HomeStackParamList, "Home">
 

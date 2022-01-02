@@ -8,11 +8,12 @@ interface RightArrowButtonIconProps{
     width?: number;
     height?: number;
     paddingleft?: number;
+    marginRight?: number;
 }
 
-const RightArrowButtonIcon = ({strokeColor = '#3145F5', color='#F1F0FE', width = 24, height = 24, paddingleft = 16}: RightArrowButtonIconProps) => {
+const RightArrowButtonIcon = ({strokeColor = '#3145F5', color='#F1F0FE', width = 24, height = 24, paddingleft = 16, marginRight=0}: RightArrowButtonIconProps) => {
     return (
-        <Svg width="24" height="24" viewBox="0 0 24 24" fill="none" >
+        <Svg width={width} height={height} viewBox="0 0 24 24" fill="none" style={{marginRight: marginRight}}>
             <Path d="M0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z" fill={color}/>
             <Path d="M10 16L14 12L10 8" stroke={strokeColor} stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
         </Svg>

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, View, Dimensions } from 'react-native';
 import FantaskticIcon from '../../../icons/FantaskticIcon';
 import NotificationIcon from '../../../icons/NotificationIcon';
-import HasNotice from '../../HasNotice';
+import NumberIndicator from '../../NumberIndicator';
 import StatusBarBackGround from '../../StatusBarBackGround';
 
 interface HomeHeaderProps {
@@ -66,7 +66,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({notificationNavigate}) => {
                 <TouchableOpacity onPress={notificationNavigate} style={styles.notificationField}>
                     <NotificationIcon color={(hasNew()>0) ? 'black' : '#A0A1AF'}/>
                     {hasNew() &&
-                        <HasNotice notificationNumber={hasNew()}/>
+                        <NumberIndicator payload={hasNew()}/>
                     }
                 </TouchableOpacity>
             </View>
