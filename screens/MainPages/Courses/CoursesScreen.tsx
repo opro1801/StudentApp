@@ -4,6 +4,7 @@ import GeneralHeader from "../../../components/GeneralHeader";
 import CompletedTaskCard from "../../../components/Home/Tasks/CompletedTaskCard";
 import { headerIgnore } from "../../../components/StatusBarBackGround";
 import CourseListCard from '../../../components/Courses/CourseListCard';
+import { BlurView } from "expo-blur";
 
 const { width, height } = Dimensions.get('window');
 
@@ -34,7 +35,9 @@ const CoursesScreen = () => {
   // }, [tasksList])
     return (
       <View style={styles.container}>
-        <GeneralHeader titleContent="My Courses" hasBack={false} hasMore={false} hasAdd={true}/>
+        {/* <BlurView intensity={100}> */}
+          <GeneralHeader titleContent="My Courses" hasBack={false} hasMore={false} hasAdd={true}/>
+        {/* </BlurView> */}
         <View style={styles.inner}>
         <ScrollView style={styles.courseList} showsVerticalScrollIndicator={false} contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
             <View style={{height: headerIgnore}} />

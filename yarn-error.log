@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add react-native-reanimated-v2
+  /usr/local/bin/node /usr/local/bin/yarn add @types/react-native-swipe-modal-up-down
 
 PATH: 
   /Users/thanhlampham/development/flutter/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/thanhlampham/Library/Android/sdk/platform-tools
@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-native-reanimated-v2: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-native-swipe-modal-up-down: Not found
       at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:67029:18)
       at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140883:22)
       at Request.emit (node:events:390:28)
@@ -59,10 +59,12 @@ npm manifest:
       "react-native-gesture-handler": "~2.1.0",
       "react-native-google-signin": "^2.1.1",
       "react-native-pager-view": "5.4.9",
+      "react-native-progress": "^5.0.0",
       "react-native-reanimated": "~2.3.1",
       "react-native-safe-area-context": "3.3.2",
       "react-native-screens": "~3.10.1",
       "react-native-svg": "12.1.1",
+      "react-native-swipe-modal-up-down": "^1.1.0",
       "react-native-tab-view": "^3.1.1",
       "react-native-vector-icons": "^9.0.0",
       "react-native-web": "0.17.1"
@@ -4847,6 +4849,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.9.tgz#c0d40847cfeda5a4e729b53271b0ee0fedff3eb5"
     integrity sha512-D6tzxpwMGdl6CXgtskGWhKRc5cJakCazESRGt7PkqnpyiH3N35ft1KmR82pCSQetAFlytFiToeu3a/dG5CELvA==
   
+  react-native-progress@^5.0.0:
+    version "5.0.0"
+    resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-5.0.0.tgz#f5ac6ceaeee27f184c660b00f29419e82a9d0ab0"
+    integrity sha512-KjnGIt3r9i5Kn2biOD9fXLJocf0bwxPRxOyAgXEnZTJQU2O+HyzgGFRCbM5h3izm9kKIkSc1txh8aGmMafCD9A==
+    dependencies:
+      prop-types "^15.7.2"
+  
   react-native-reanimated@~2.3.1:
     version "2.3.1"
     resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-2.3.1.tgz#c7abad48f9e6c84610b0d5e270088ecd61750382"
@@ -4880,6 +4889,11 @@ Lockfile:
     dependencies:
       css-select "^2.1.0"
       css-tree "^1.0.0-alpha.39"
+  
+  react-native-swipe-modal-up-down@^1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/react-native-swipe-modal-up-down/-/react-native-swipe-modal-up-down-1.1.0.tgz#53db0cb9b31526ac6038646b7c42752c7e28c857"
+    integrity sha512-ldPWY1IARFoiu4LIsbu0ZgrfYnmYuGQd30S0QFjbMEszGG2+RkseIVFrFDpayLaENSYtvXGvmFR9wRtK342Tow==
   
   react-native-tab-view@^3.1.1:
     version "3.1.1"

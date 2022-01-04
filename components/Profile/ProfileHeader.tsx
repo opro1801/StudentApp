@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
         height: 150,
+        marginBottom: 16,
     },
     textField: {
         height: 42,

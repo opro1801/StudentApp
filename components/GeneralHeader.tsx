@@ -5,9 +5,10 @@ import LeftArrowIcon from "../icons/LeftArrowIcon";
 import MoreIcon from "../icons/MoreIcon";
 import StyleSheetLibrary from "../stylesheet/StyleSheetLibrary";
 import NumberIndicator from "./NumberIndicator";
-import StatusBarBackGround from "./StatusBarBackGround";
+import StatusBarBackGround, { statusBarIgnore } from "./StatusBarBackGround";
 import { useTasksContext } from '../contexts/TasksContext';
 import AddIcon from "../icons/AddIcon";
+import { BlurView } from "expo-blur";
 
 interface GeneralHeaderProps {
     hasBack?: boolean;
@@ -31,7 +32,8 @@ const GeneralHeader: React.FC<GeneralHeaderProps> = ({hasBack = true, hasMore = 
     }
     return (
     <View style={styles.container}>
-        <StatusBarBackGround />
+        {/* <StatusBarBackGround /> */}
+        <View style={{height: statusBarIgnore}}/>
         <View style={styles.inner}>
             <View style={styles.mainLayer}>
                 { hasBack &&  

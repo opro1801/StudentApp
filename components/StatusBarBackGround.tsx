@@ -20,4 +20,6 @@ const styles = StyleSheet.create({
 
 export const headerIgnore = (Platform.OS === 'ios') ? (44 + 56) : 56;
 
+export const statusBarIgnore = (Platform.OS === 'ios') ? 44 : 0;
+
 export default StatusBarBackGround;
