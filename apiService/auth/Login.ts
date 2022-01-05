@@ -15,7 +15,6 @@ import {
   isSignInWithEmailLink,
   User as FirebaseUser,
 } from 'firebase/auth';
-import firebaseAppWithConfig from '../../config/FirebaseConfig';
 import {
   AuthFirebaseLoginOutput,
   FirebaseUserLoginInput,
@@ -23,10 +22,11 @@ import {
   User,
   UserRole,
 } from '../../assets/type/backend.type';
+import { auth } from '../../config/FirebaseConfig';
 import { useCustomLazyQuery } from '../../utils/useCustomLazyQuery';
 import { GET_ME_QUERY } from './GetMeQuery';
 
-const FIREBASEUSER_LOGIN_MUTATION = gql`
+export const FIREBASEUSER_LOGIN_MUTATION = gql`
   mutation firebaseUserLogin($firebaseUserLoginInput: FirebaseUserLoginInput!) {
     firebaseUserLogin(firebaseUserLoginInput: $firebaseUserLoginInput) {
       isSuccess
@@ -36,7 +36,7 @@ const FIREBASEUSER_LOGIN_MUTATION = gql`
   }
 `;
 
-const FIREBASEUSER_REGISTER_MUTATION = gql`
+export const FIREBASEUSER_REGISTER_MUTATION = gql`
   mutation firebaseUserRegister(
     $firebaseUserRegisterInput: FirebaseUserRegisterInput!
   ) {
@@ -64,7 +64,6 @@ export enum FirebaseProvider {
 }
 
 const LoginFuntion = (email: string) => {
-  let auth = getAuth(firebaseAppWithConfig);
   const [firebaseUserLoginMutation] = useMutation<
     { firebaseUserLogin: AuthFirebaseLoginOutput },
     { firebaseUserLoginInput: FirebaseUserLoginInput }
@@ -77,12 +76,11 @@ const LoginFuntion = (email: string) => {
   async function handleSendSignInLinkToEmail(_auth: Auth, _email: string) {
     try {
       // update auth
-      _auth = getAuth(firebaseAppWithConfig);
       const actionCodeSettings = {
         url: 'http://localhost:3001/login',
         // no need to setup if not building IOS or Andriod app
         // iOS: {
-        //    bundleId: 'com.example.ios'
+        //  bundleId: 'com.example.ios'
         // },
         // android: {
         //   packageName: 'com.example.android',
