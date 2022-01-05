@@ -6,40 +6,41 @@ import EmailContinueScreen from './EmailContinueScreen';
 import EmailVerification from './EmailVerification';
 import WelcomeScreen from './WelcomeScreen';
 import { useLandingContext } from '../../contexts/LandingContext';
+import { User } from 'firebase/auth';
 
 export type AuthStackParamList = {
   Landing: undefined;
   EmailContinueScreen: undefined;
-  EmailVerification: {
-    email: string;
-  };
-  Welcome: {
-    email: string
-  };
-}
+  EmailVerification: undefined;
+  Welcome: undefined;
+};
 
 const Stack = createStackNavigator<AuthStackParamList>();
 
 export default function LandingNavigator() {
-  const {isWelcome} = useLandingContext();
+  const { isWelcome } = useLandingContext();
   return (
     <NavigationContainer>
-      {!isWelcome &&
-      <Stack.Navigator 
-        initialRouteName="Landing"
-        screenOptions={{
-          headerShown: false
-        }}
-      >
-        <Stack.Screen name="Landing" component={LandingScreen} />
-        <Stack.Screen name="EmailContinueScreen" component={EmailContinueScreen} />
-        <Stack.Screen name="EmailVerification" component={EmailVerification} />
-        {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
-      </Stack.Navigator>
-      }
-      {isWelcome &&
-      <WelcomeScreen />
-      }
-  </NavigationContainer>
+      {!isWelcome && (
+        <Stack.Navigator
+          initialRouteName='Landing'
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name='Landing' component={LandingScreen} />
+          <Stack.Screen
+            name='EmailContinueScreen'
+            component={EmailContinueScreen}
+          />
+          <Stack.Screen
+            name='EmailVerification'
+            component={EmailVerification}
+          />
+          {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
+        </Stack.Navigator>
+      )}
+      {isWelcome && <WelcomeScreen />}
+    </NavigationContainer>
   );
 }

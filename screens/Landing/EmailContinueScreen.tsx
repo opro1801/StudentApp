@@ -56,6 +56,8 @@ type authScreenNavigationType = StackNavigationProp<
 const EmailContinueScreen = () => {
   const navigation = useNavigation<authScreenNavigationType>();
 
+  const { toggleIsWelcome, user, setCurrentUser } = useLandingContext();
+
   const [firebaseUserLoginMutation] = useMutation<
     { firebaseUserLogin: AuthFirebaseLoginOutput },
     { firebaseUserLoginInput: FirebaseUserLoginInput }
@@ -80,6 +82,18 @@ const EmailContinueScreen = () => {
     setuserEmail(value);
   };
 
+  const actionCodeSettings = {
+    url: 'https://www.example.com',
+    iOS: {
+      bundleId: 'com.example.ios',
+    },
+    android: {
+      packageName: 'com.example.android',
+      installApp: true,
+      minimumVersion: '12',
+    },
+    handleCodeInApp: true,
+  };
   // const login = async (_auth: Auth, _email: string) => {
   //   try {
   //     // update auth
@@ -104,46 +118,50 @@ const EmailContinueScreen = () => {
   //     console.log('error', JSON.stringify(error));
   //     alert('SignIn failed');
   //   }
-  // };continuous-mule-9242@onetimeusemail.com
+  // };bomytyno@musiccode.me
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, userEmail, password)
       .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log('Registered with', user.email);
-        const actionCodeSettings = {
-          url: 'https://www.example.com',
-          iOS: {
-            bundleId: 'com.example.ios',
-          },
-          android: {
-            packageName: 'com.example.android',
-            installApp: true,
-            minimumVersion: '12',
-          },
-          handleCodeInApp: true,
-        };
-        storeData(user.email);
-        sendEmailVerification(user, actionCodeSettings);
+        setCurrentUser(userCredentials.user);
+        if (user) {
+          console.log('Registered with', user.email);
+          storeData(user.email);
+          sendEmailVerification(user, actionCodeSettings);
+          navigation.navigate('EmailVerification');
+        }
       })
       .catch((error) => alert(error.message));
   };
-
+  // pequhi@musiccode.me
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, userEmail, password)
       .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
+        setCurrentUser(userCredentials.user);
+        if (user) {
+          storeData(user.email);
+          console.log('Logged in with:', user.email);
+          console.log('emailverified: ', user.emailVerified);
+          if (user.emailVerified) {
+            toggleIsWelcome();
+          } else {
+            sendEmailVerification(user, actionCodeSettings);
+            navigation.navigate('EmailVerification');
+          }
+        }
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        handleSignUp();
+      });
   };
 
   const nextPage = () => {
     if (isValidEmail(userEmail)) {
-      handleSignUp();
-      navigation.navigate('EmailVerification', {
-        email: userEmail,
-      });
+      // try {
+      handleLogin();
+      // } catch {
+      //   handleSignUp();
+      // }
     } else {
       Alert.alert('Please enter a valid email!');
     }

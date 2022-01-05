@@ -1,3 +1,4 @@
+import { User } from 'firebase/auth';
 import React, { useState, useEffect, FC, useContext } from 'react';
 import { Platform, Dimensions } from 'react-native';
 
@@ -8,13 +9,18 @@ interface LandingContextInterface {
   toggleLoggedIn?: () => void;
   statusBarHeight: number;
   isWelcome: boolean;
-  toggleIsWelcome?: () => void;
+  toggleIsWelcome: () => void;
+  user: User | null;
+  setCurrentUser: (user: User) => void;
 }
 
 const defaultState = {
   isLoggedIn: false,
   statusBarHeight: 44,
   isWelcome: false,
+  toggleIsWelcome: () => {},
+  user: null,
+  setCurrentUser: (user: User) => {},
 };
 
 export const LandingContext =
@@ -25,15 +31,14 @@ export const LandingContextProvider: FC = ({ children }) => {
   const toggleLoggedIn = () => {
     setisLoggedIn(!isLoggedIn);
   };
+  const [user, setUser] = useState<User | null>(null);
   const statusBarHeight = Platform.OS === 'ios' ? 44 : 0;
-  const fontSizeText = 12;
-  const fontSizeTitle = width < 300 ? 28 : 32;
-  const fontSizeLargeText = width < 300 ? 12 : 14;
-  const fontSizeSubtitle = width < 300 ? 12 : 14;
-  const fontSizeSmallTitle = width < 300 ? 14 : 16;
   const [isWelcome, setisWelcome] = useState(false);
   const toggleIsWelcome = () => {
     setisWelcome(!isWelcome);
+  };
+  const setCurrentUser = (user: User) => {
+    setUser(user);
   };
   return (
     <LandingContext.Provider
@@ -43,6 +48,8 @@ export const LandingContextProvider: FC = ({ children }) => {
         statusBarHeight,
         isWelcome,
         toggleIsWelcome,
+        user,
+        setCurrentUser,
       }}
     >
       {children}
