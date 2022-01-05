@@ -1,7 +1,7 @@
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, createRef } from 'react';
 import {
   View,
   Text,
@@ -69,6 +69,8 @@ const EmailContinueScreen = () => {
 
   const [isFocus, setisFocus] = useState(true);
 
+  const ref = useRef<TextInput>(null);
+
   const [userEmail, setuserEmail] = useState<string>('');
 
   const [password, setPassword] = useState<string>('');
@@ -83,7 +85,7 @@ const EmailContinueScreen = () => {
   };
 
   const actionCodeSettings = {
-    url: 'https://www.example.com',
+    url: 'https://localhost:3001/login',
     iOS: {
       bundleId: 'com.example.ios',
     },
@@ -123,43 +125,50 @@ const EmailContinueScreen = () => {
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, userEmail, password)
       .then((userCredentials) => {
-        setCurrentUser(userCredentials.user);
-        if (user) {
-          console.log('Registered with', user.email);
-          storeData(user.email);
-          sendEmailVerification(user, actionCodeSettings);
-          navigation.navigate('EmailVerification');
-        }
-      })
-      .catch((error) => alert(error.message));
-  };
-  // pequhi@musiccode.me
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, userEmail, password)
-      .then((userCredentials) => {
-        setCurrentUser(userCredentials.user);
-        if (user) {
-          storeData(user.email);
-          console.log('Logged in with:', user.email);
-          console.log('emailverified: ', user.emailVerified);
-          if (user.emailVerified) {
-            toggleIsWelcome();
-          } else {
-            sendEmailVerification(user, actionCodeSettings);
-            navigation.navigate('EmailVerification');
-          }
-        }
+        const currentUser = userCredentials.user;
+        setCurrentUser(currentUser);
+
+        console.log('Registered with', currentUser.email);
+        storeData(currentUser.email);
+        sendEmailVerification(currentUser, actionCodeSettings);
+        navigation.navigate('EmailVerification');
       })
       .catch((error) => {
+        console.log('register error', error);
+        // handleLogin();
+      });
+  };
+  // pequhi@musiccode.me
+  const handleLogin = async () => {
+    return signInWithEmailAndPassword(auth, userEmail, password)
+      .then((userCredentials) => {
+        const currentUser = userCredentials.user;
+        setCurrentUser(userCredentials.user);
+
+        storeData(currentUser.email);
+        console.log('Logged in with:', currentUser.email);
+        console.log('emailverified: ', currentUser.emailVerified);
+        if (currentUser.emailVerified) {
+          toggleIsWelcome();
+        } else {
+          sendEmailVerification(currentUser, actionCodeSettings);
+          navigation.navigate('EmailVerification');
+        }
+        return true;
+      })
+      .catch((error) => {
+        // handleSignUp();
+        console.log('sign in error');
         handleSignUp();
       });
   };
 
-  const nextPage = () => {
+  const nextPage = async () => {
     if (isValidEmail(userEmail)) {
       // try {
-      handleLogin();
+      // if (!(await handleLogin())) handleSignUp();
       // } catch {
+      handleLogin();
       //   handleSignUp();
       // }
     } else {
@@ -237,6 +246,9 @@ const EmailContinueScreen = () => {
                 onFocus={() => setisFocus(true)}
                 onBlur={() => setisFocus(false)}
                 defaultValue={userEmail}
+                onSubmitEditing={() => {
+                  if (ref.current) ref.current.focus();
+                }}
               />
             </View>
             <TextInputFocusEffect
@@ -244,6 +256,9 @@ const EmailContinueScreen = () => {
               setFieldName={setPassword}
               placeholder='Your password'
               autoCapitalize='none'
+              autoFocus={false}
+              ref={ref}
+              isPassword={true}
             />
           </View>
           <ContinueButton
