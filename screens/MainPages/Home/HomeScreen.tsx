@@ -43,27 +43,26 @@ const HomeScreen = () => {
     navigation.navigate('Notification');
   };
 
-  // const { data, loading } = useQuery(GET_TOPIC_DETAIL_BY_ID_QUERY, {
-  //   variables: { topicId: '8141a91e-9b33-4c80-9b7f-e59740d9a5fd' },
-  // });
+  const { data, loading } = useQuery(GET_USER_BY_ID, {
+    variables: { userId: '4f542f5e-7122-4126-9e6a-4e856e549e66' },
+  });
 
-  // const {
-  //   topic: { name },
-  // } = data;
+  // console.log(data);
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
+  if (loading) {
+    return <Loading />;
+  }
+
+  const {
+    user: { name },
+  } = data;
 
   return (
     <View style={styles.container}>
       <StatusBar />
       <HomeHeader notificationNavigate={notificationNavigate} />
       <ScrollView style={{ paddingTop: 56 + statusBarIgnore }}>
-        <GreetingWithStatistics />
-        {/* <View>
-          <Text>{name.en}</Text>
-        </View> */}
+        <GreetingWithStatistics name={name} />
         <ClassContainer />
         <TasksContainer />
       </ScrollView>
