@@ -3,7 +3,7 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 
 export const Loading = () => (
   <View style={styles.centered}>
-    <ActivityIndicator size='large' color={'#ff5dc8'} />
+    <ActivityIndicator size='large' />
   </View>
 );
 

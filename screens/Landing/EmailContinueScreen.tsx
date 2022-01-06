@@ -1,4 +1,9 @@
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import {
+  CommonActions,
+  RouteProp,
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import React, { useRef, useState, useEffect, createRef } from 'react';
@@ -47,6 +52,7 @@ import TextInputFocusEffect from '../../components/TextInputFocusEffect';
 import { auth } from '../../config/FirebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import TextInputFocusEffectWithIcon from '../../components/TextInputFocusEffectWithIcon';
+import { RootStackParamList } from '../RootStackNavigator';
 
 const { width, height } = Dimensions.get('window');
 type authScreenNavigationType = StackNavigationProp<
@@ -54,8 +60,15 @@ type authScreenNavigationType = StackNavigationProp<
   'EmailContinueScreen'
 >;
 
+type AuthRootScreenNavigationType = StackNavigationProp<
+  RootStackParamList,
+  'Auth'
+>;
+
 const EmailContinueScreen = () => {
   const navigation = useNavigation<authScreenNavigationType>();
+
+  const rootNavigation = useNavigation<AuthRootScreenNavigationType>();
 
   const { toggleIsWelcome, user, setCurrentUser } = useLandingContext();
 
@@ -158,7 +171,13 @@ const EmailContinueScreen = () => {
         console.log('Logged in with:', currentUser.email);
         console.log('emailverified: ', currentUser.emailVerified);
         if (currentUser.emailVerified) {
-          toggleIsWelcome();
+          // toggleIsWelcome();
+          rootNavigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: 'MainPages' }],
+            }),
+          );
         } else {
           sendEmailVerification(currentUser, actionCodeSettings);
           navigation.navigate('EmailVerification');

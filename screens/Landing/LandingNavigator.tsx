@@ -20,7 +20,8 @@ const Stack = createStackNavigator<AuthStackParamList>();
 export default function LandingNavigator() {
   const { isWelcome } = useLandingContext();
   return (
-    <NavigationContainer>
+    // <NavigationContainer>
+    <>
       {!isWelcome && (
         <Stack.Navigator
           initialRouteName='Landing'
@@ -41,6 +42,7 @@ export default function LandingNavigator() {
         </Stack.Navigator>
       )}
       {isWelcome && <WelcomeScreen />}
-    </NavigationContainer>
+    </>
+    // </NavigationContainer>
   );
 }

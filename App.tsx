@@ -14,6 +14,7 @@ import {
 } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Loading } from './components/Loading';
+import RootStackNavigator from './screens/RootStackNavigator';
 
 export const JWT_TOKEN = 'JWT_TOKEN';
 
@@ -65,10 +66,7 @@ export default function App() {
   }
   return (
     <ApolloProvider client={client}>
-      <LandingContextProvider>
-        <LandingNavigator />
-      </LandingContextProvider>
-      {/* <MainNavigationContainer /> */}
+      <RootStackNavigator />
     </ApolloProvider>
   );
 }
