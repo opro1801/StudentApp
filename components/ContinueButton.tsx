@@ -18,6 +18,7 @@ const ContinueButton = ({isValidInfo, userInfo, nextPage, buttonText}: ContinueB
         style={[styles.continueButton, {backgroundColor: isValidInfo(userInfo) ? '#3145F5' : '#D0D0D7'}]} 
         onPress={nextPage}
         disabled={isValidInfo(userInfo) ? false : true}
+        
         >
             <Text style={[styles.continueButtonText, { fontSize: StyleSheetLibrary.fontSizeSmallTitle }]}>{buttonText}</Text>
         </TouchableOpacity>
