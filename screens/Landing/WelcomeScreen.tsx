@@ -80,7 +80,7 @@ const WelcomeScreen = () => {
             </View>
           </View>
           <ContinueButton
-            isValidInfo={(userName) => userName !== ''}
+            isValidInfo={() => userName !== ''}
             userInfo={userName}
             buttonText='Complete Registration'
             nextPage={completeRegistration}

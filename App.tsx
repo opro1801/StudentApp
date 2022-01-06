@@ -65,10 +65,10 @@ export default function App() {
   }
   return (
     <ApolloProvider client={client}>
-      {/* <LandingContextProvider>
+      <LandingContextProvider>
         <LandingNavigator />
-      </LandingContextProvider> */}
-      <MainNavigationContainer />
+      </LandingContextProvider>
+      {/* <MainNavigationContainer /> */}
     </ApolloProvider>
   );
 }

@@ -46,6 +46,7 @@ import { useMutation } from '@apollo/client';
 import TextInputFocusEffect from '../../components/TextInputFocusEffect';
 import { auth } from '../../config/FirebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import TextInputFocusEffectWithIcon from '../../components/TextInputFocusEffectWithIcon';
 
 const { width, height } = Dimensions.get('window');
 type authScreenNavigationType = StackNavigationProp<
@@ -78,6 +79,14 @@ const EmailContinueScreen = () => {
   const isValidEmail = (mail: string) => {
     const regx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return regx.test(mail);
+  };
+
+  const isValidPassword = (password: string) => {
+    return password.length >= 8;
+  };
+
+  const isValidInfo = () => {
+    return isValidEmail(userEmail) && isValidPassword(password);
   };
 
   const handleOnChangeText = (value: string) => {
@@ -228,29 +237,16 @@ const EmailContinueScreen = () => {
                 Please enter your email address to proceed
               </Text>
             </View>
-            <View
-              style={[
-                styles.inputSection,
-                { borderWidth: isFocus ? 1 : 0, borderColor: '#3145F5' },
-              ]}
-            >
-              <MailIcon paddingleft={16} />
-              <TextInput
-                style={[styles.emailInput]}
-                autoCapitalize='none'
-                autoCorrect={false}
-                placeholder='Your email'
-                underlineColorAndroid='transparent'
-                onChangeText={(text) => handleOnChangeText(text)}
-                autoFocus={true}
-                onFocus={() => setisFocus(true)}
-                onBlur={() => setisFocus(false)}
-                defaultValue={userEmail}
-                onSubmitEditing={() => {
-                  if (ref.current) ref.current.focus();
-                }}
-              />
-            </View>
+            <TextInputFocusEffectWithIcon
+              fieldName={userEmail}
+              placeholder={'Your Email'}
+              autoCapitalize={'none'}
+              onSubmitEditing={() => {
+                if (ref.current) ref.current.focus();
+              }}
+              handleOnChangeText={handleOnChangeText}
+              Icon={<MailIcon paddingleft={16} />}
+            />
             <TextInputFocusEffect
               fieldName={password}
               setFieldName={setPassword}
@@ -262,7 +258,7 @@ const EmailContinueScreen = () => {
             />
           </View>
           <ContinueButton
-            isValidInfo={isValidEmail}
+            isValidInfo={isValidInfo}
             userInfo={userEmail}
             nextPage={nextPage}
             buttonText='Continue'
