@@ -9,6 +9,7 @@ import { GET_QUESTIONS_QUERY } from '../apiService/questionBank/questionBankGQL'
 import { Loading } from '../components/Loading';
 import QuestionContent from '../components/QuestionContent';
 import QuestionContextProvider from '../contexts/QuestionContext';
+import { StatusBar } from 'expo-status-bar';
 
 const Draft = () => {
   //   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -21,6 +22,7 @@ const Draft = () => {
   return (
     <QuestionContextProvider>
       <View style={styles.container}>
+        <StatusBar style={'light'} />
         <View style={{ height: statusBarIgnore, backgroundColor: '#5F45FF' }} />
         <TopNavigationBarWithProgressIndicator />
         <QuestionContent />
