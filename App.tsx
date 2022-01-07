@@ -15,6 +15,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Loading } from './components/Loading';
 import RootStackNavigator from './screens/RootStackNavigator';
+import Draft from './draft/Draft';
 
 export const JWT_TOKEN = 'JWT_TOKEN';
 
@@ -52,21 +53,22 @@ const client = new ApolloClient({
 });
 
 export default function App() {
-  const [loadingCache, setLoadingCache] = useState(true);
-  const cache = new InMemoryCache();
-  useEffect(() => {
-    persistCache({
-      cache,
-      storage: AsyncStorage,
-    }).then(() => setLoadingCache(false));
-  }, []);
+  // const [loadingCache, setLoadingCache] = useState(true);
+  // const cache = new InMemoryCache();
+  // useEffect(() => {
+  //   persistCache({
+  //     cache,
+  //     storage: AsyncStorage,
+  //   }).then(() => setLoadingCache(false));
+  // }, []);
 
-  if (loadingCache) {
-    return <Loading />;
-  }
+  // if (loadingCache) {
+  //   return <Loading />;
+  // }
   return (
     <ApolloProvider client={client}>
-      <RootStackNavigator />
+      {/* //   <RootStackNavigator /> */}
+      <Draft />
     </ApolloProvider>
   );
 }

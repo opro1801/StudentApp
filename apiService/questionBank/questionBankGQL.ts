@@ -550,3 +550,11 @@ export const DELETE_QUESTION_BY_ID_MUTATION = gql`
     }
   }
 `;
+
+export const GET_QUESTIONS_QUERY = gql`
+  query getQuestions {
+    questions {
+      id
+    }
+  }
+`;
