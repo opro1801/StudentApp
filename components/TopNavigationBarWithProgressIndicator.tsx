@@ -1,16 +1,39 @@
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text, FlatList } from 'react-native';
 import CloseIcon from '../icons/CloseIcon';
 import MoreIcon from '../icons/MoreIcon';
 import XSquareIcon from '../icons/XSquareIcon';
-import ProgressIndicator, { ProgressStatus } from './ProgressIndicator';
+import ProgressIndicator, {
+  ProgressIndicatorInterface,
+  ProgressStatus,
+} from './ProgressIndicator';
 import StyleSheetLibrary from '../stylesheet/StyleSheetLibrary';
 import { useQuestionContext } from '../contexts/QuestionContext';
+import { QuestionInterface } from '../draft/Draft';
 
-const TopNavigationBarWithProgressIndicator = () => {
-  const { totalQuestions } = useQuestionContext();
-  let indicatorList = [];
-  //   for(int)
+interface TopNavigationBarWithProgressIndicatorInterface {
+  questions: QuestionInterface[];
+  currentQuestionIndex: number;
+}
+
+const TopNavigationBarWithProgressIndicator: React.FC<
+  TopNavigationBarWithProgressIndicatorInterface
+> = ({ questions, currentQuestionIndex }) => {
+  const [indicatorList, setIndicatorList] = useState<JSX.Element[]>([]);
+  useEffect(() => {
+    setIndicatorList(
+      questions.map((item, index) => {
+        return (
+          <ProgressIndicator
+            status={item.status}
+            isCurrentPage={index === currentQuestionIndex}
+            index={index}
+            key={item.id}
+          />
+        );
+      }),
+    );
+  }, [questions]);
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
@@ -20,30 +43,23 @@ const TopNavigationBarWithProgressIndicator = () => {
           <MoreIcon color='white' strokeColor='white' />
         </View>
         <View style={styles.progress}>
-          <ProgressIndicator
-            status={ProgressStatus.CORRECT}
-            isCurrentPage={false}
-          />
-          <ProgressIndicator
-            status={ProgressStatus.INCORRECT}
-            isCurrentPage={false}
-          />
-          <ProgressIndicator
-            status={ProgressStatus.CORRECT}
-            isCurrentPage={false}
-          />
-          <ProgressIndicator
-            status={ProgressStatus.INCORRECT}
-            isCurrentPage={false}
-          />
-          <ProgressIndicator
-            status={ProgressStatus.CURRENT}
-            isCurrentPage={true}
-          />
-          <ProgressIndicator
-            status={ProgressStatus.INACTIVE}
-            isCurrentPage={false}
-          />
+          {/* <FlatList
+            style={{ flex: 1 }}
+            horizontal
+            scrollEnabled={false}
+            data={questions}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item, index }) => {
+              return (
+                <ProgressIndicator
+                  status={item.status}
+                  isCurrentPage={index === currentQuestionIndex}
+                  index={index}
+                />
+              );
+            }}
+          /> */}
+          {indicatorList}
         </View>
       </View>
     </View>

@@ -9,9 +9,10 @@ export enum ProgressStatus {
   INACTIVE = 3,
 }
 
-interface ProgressIndicatorInterface {
+export interface ProgressIndicatorInterface {
   status: ProgressStatus;
   isCurrentPage: boolean;
+  index: number;
 }
 
 const statusColor = ['#2ED47A', '#F95141', '#3145F5', '#D0D0D7'];
@@ -19,6 +20,7 @@ const statusColor = ['#2ED47A', '#F95141', '#3145F5', '#D0D0D7'];
 const ProgressIndicator: React.FC<ProgressIndicatorInterface> = ({
   status,
   isCurrentPage,
+  index,
 }) => {
   return (
     <Pressable
