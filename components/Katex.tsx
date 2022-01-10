@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { bool, func, object, string } from 'prop-types';
 import { WebView } from 'react-native-webview';
 import { Dispatch } from 'react';
+import { bottomNavigationBarState } from './BottomNavigationBar';
 
 function getContent(inlineStyle: string, expression: string, options: any) {
   return `<!DOCTYPE html>
@@ -53,6 +54,10 @@ const CustomKatex = ({
   currentAnswer,
   optionName,
   setCurrentAnswer,
+  isChecked,
+  correctAnswer,
+  currentState,
+  setCurrentState,
   ...options
 }: CustomKatexInterface) => {
   // const width = ; // hacky attempt at dynamic width as flex width wasn't working
@@ -60,10 +65,26 @@ const CustomKatex = ({
     <TouchableOpacity
       style={[
         styles.answer,
-        { borderColor: currentAnswer === optionName ? '#3145F5' : '#E8E8E8' },
+        {
+          borderColor: isChecked
+            ? correctAnswer === optionName
+              ? '#2ED47A'
+              : currentAnswer === optionName
+              ? '#F95141'
+              : '#E8E8E8'
+            : currentAnswer === optionName
+            ? '#3145F5'
+            : '#E8E8E8',
+        },
       ]}
       onPress={() => {
         if (setCurrentAnswer != null) setCurrentAnswer(optionName);
+        if (
+          currentState === bottomNavigationBarState.INITIAL &&
+          setCurrentState != null
+        ) {
+          setCurrentState(bottomNavigationBarState.AFTERPICKING);
+        }
       }}
     >
       <WebView
@@ -99,6 +120,13 @@ interface CustomKatexInterface {
   currentAnswer: string;
   setCurrentAnswer: Dispatch<React.SetStateAction<string>> | null;
   optionName: string;
+  isChecked: boolean;
+  setIsChecked: Dispatch<React.SetStateAction<boolean>> | null;
+  correctAnswer: string;
+  currentState: bottomNavigationBarState;
+  setCurrentState: Dispatch<
+    React.SetStateAction<bottomNavigationBarState>
+  > | null;
 }
 
 CustomKatex.defaultProps = {

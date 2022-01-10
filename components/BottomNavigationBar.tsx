@@ -3,6 +3,9 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface BottomNavigationBarInterface {
   currentState: bottomNavigationBarState;
+  handleCheckAnswer: () => void;
+  isChecked: boolean;
+  setIsCheck: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export enum bottomNavigationBarState {
@@ -13,6 +16,9 @@ export enum bottomNavigationBarState {
 
 const BottomNavigationBar: React.FC<BottomNavigationBarInterface> = ({
   currentState = bottomNavigationBarState.INITIAL,
+  setIsCheck,
+  isChecked,
+  handleCheckAnswer,
 }) => {
   return (
     <View style={styles.container}>
@@ -28,6 +34,11 @@ const BottomNavigationBar: React.FC<BottomNavigationBarInterface> = ({
               backgroundColor: currentState === 2 ? '#3145F5' : '#ffffff',
             },
           ]}
+          onPress={() => {
+            if (!isChecked) {
+              handleCheckAnswer();
+            }
+          }}
         >
           <Text
             style={{
@@ -39,7 +50,7 @@ const BottomNavigationBar: React.FC<BottomNavigationBarInterface> = ({
                   : '#ffffff',
             }}
           >
-            Check
+            {currentState === 2 ? 'Next' : 'Check'}
           </Text>
         </TouchableOpacity>
       </View>

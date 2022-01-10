@@ -41,8 +41,12 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
   );
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
+  const [isChecked, setIsChecked] = useState(false);
 
-  const handleCheckAnswer = () => {};
+  const handleCheckAnswer = () => {
+    setIsChecked(true);
+    setCurrentState(bottomNavigationBarState.AFTERCHECKING);
+  };
 
   const { data, loading, error } = useQuery(GET_QUESTION_DETAIL_QUERY, {
     variables: { id: questions[currentQuestionIndex].id },
@@ -69,12 +73,22 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
                 currentAnswer={currentAnswer}
                 setCurrentAnswer={setCurrentAnswer}
                 optionName={value.optionName}
+                isChecked={isChecked}
+                setIsChecked={setIsChecked}
+                correctAnswer={correctAnswer}
+                currentState={currentState}
+                setCurrentState={setCurrentState}
               />
             );
           },
         )}
       </ScrollView>
-      <BottomNavigationBar currentState={currentState} />
+      <BottomNavigationBar
+        currentState={currentState}
+        handleCheckAnswer={handleCheckAnswer}
+        isChecked={false}
+        setIsCheck={setIsChecked}
+      />
     </View>
   );
 };
