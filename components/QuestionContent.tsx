@@ -19,6 +19,8 @@ interface QuestionContentInterface {
   currentQuestionIndex: number;
   setQuestions: React.Dispatch<React.SetStateAction<QuestionInterface[]>>;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentSet: React.Dispatch<React.SetStateAction<number>>;
+  currentSet: number;
 }
 
 interface AnswerInterface {
@@ -37,12 +39,18 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
   currentQuestionIndex,
   setQuestions,
   setCurrentQuestionIndex,
+  setCurrentSet,
+  currentSet,
 }) => {
   const [questionBody, setQuestionBody] = useState('');
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [solution, setSolution] = useState('');
+
+  const handleNextSet = () => {
+    setCurrentSet(currentSet + 1);
+  };
 
   const handleCheckAnswer = () => {
     setIsChecked(true);
@@ -89,7 +97,7 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setCurrentAnswer('');
       setIsChecked(false);
-    }
+    } else handleNextSet();
   };
   useEffect(() => {
     console.log(questions);

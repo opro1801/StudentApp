@@ -20,6 +20,10 @@ export interface QuestionInterface {
   answer: string;
   correctAnswer: string;
 }
+export interface QuestionSetInterface {
+  id: string;
+  set: number;
+}
 
 export interface QuestionStatusInterface {
   status: ProgressStatus;
@@ -30,19 +34,35 @@ interface InitialQuestionInterface {
   __typename: string;
 }
 
+const QUESTION_SET_AMOUNT = 6;
+
 const Draft = () => {
   const { data, error, loading } = useQuery(GET_QUESTIONS_QUERY);
   // const questionIds = data.questions.slice(0, 6);
+  // const [questionSets, setQuestionSets] = useState<QuestionSetInterface[]>([]);
+  const [currentSet, setCurrentSet] = useState(0);
   const [questions, setQuestions] = useState<QuestionInterface[]>([]);
   const [questionsStatus, setQuestionsStatus] = useState<
     QuestionStatusInterface[]
   >([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  // useEffect(() => {
+  //   if (data !== undefined) {
+  //     setQuestionSets(
+  //       data.questions.map((value: InitialQuestionInterface, index: number) => {
+  //         return { id: value.id, set: index / QUESTION_SET_AMOUNT };
+  //       }),
+  //     );
+  //   }
+  // }, [data]);
   useEffect(() => {
     if (data !== undefined) {
       setQuestions(
         data.questions
-          .slice(0, 6)
+          .slice(
+            currentSet * QUESTION_SET_AMOUNT,
+            currentSet * QUESTION_SET_AMOUNT + 6,
+          )
           .map((value: { __typename: string; id: string }, index: number) => {
             if (index === 0)
               return {
@@ -59,6 +79,7 @@ const Draft = () => {
             };
           }),
       );
+      setCurrentQuestionIndex(0);
       // setQuestionsStatus(
       //   data.questions.slice(0,6).map((value: InitialQuestionInterface, index: number) => {
       //     if(index === 0) return {status: ProgressStatus.CURRENT};
@@ -66,7 +87,7 @@ const Draft = () => {
       //   })
       // )
     }
-  }, [data]);
+  }, [data, currentSet]);
   if (loading || questions.length === 0) return <Loading />;
   return (
     // <QuestionContextProvider>
@@ -85,6 +106,8 @@ const Draft = () => {
         currentQuestionIndex={currentQuestionIndex}
         setQuestions={setQuestions}
         setCurrentQuestionIndex={setCurrentQuestionIndex}
+        setCurrentSet={setCurrentSet}
+        currentSet={currentSet}
       />
     </View>
     // </QuestionContextProvider>
