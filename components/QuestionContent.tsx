@@ -50,8 +50,19 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
       questions.map((value: QuestionInterface, index: number) => {
         if (index === currentQuestionIndex)
           if (currentAnswer === correctAnswer)
-            return { id: value.id, status: ProgressStatus.CORRECT };
-          else return { id: value.id, status: ProgressStatus.INCORRECT };
+            return {
+              id: value.id,
+              status: ProgressStatus.CORRECT,
+              answer: currentAnswer,
+              correctAnswer: correctAnswer,
+            };
+          else
+            return {
+              id: value.id,
+              status: ProgressStatus.INCORRECT,
+              answer: currentAnswer,
+              correctAnswer: correctAnswer,
+            };
         return value;
       }),
     );
@@ -61,8 +72,16 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
     if (currentQuestionIndex < questions.length - 1) {
       setQuestions(
         questions.map((value: QuestionInterface, index: number) => {
-          if (index === currentQuestionIndex + 1) {
-            return { id: value.id, status: ProgressStatus.CURRENT };
+          if (
+            index === currentQuestionIndex + 1 &&
+            value.status === ProgressStatus.INACTIVE
+          ) {
+            return {
+              id: value.id,
+              status: ProgressStatus.CURRENT,
+              answer: '',
+              correctAnswer: '',
+            };
           }
           return value;
         }),
@@ -84,7 +103,16 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
       setQuestionBody(data.question.content.body.en);
       setCorrectAnswer(data.question.content.correctAnswer);
       setSolution(data.question.content.solution.en);
+      setCurrentAnswer(questions[currentQuestionIndex].answer);
       console.log(data.question.content.solution.en);
+      if (
+        questions[currentQuestionIndex].status === ProgressStatus.CORRECT ||
+        questions[currentQuestionIndex].status === ProgressStatus.INCORRECT
+      ) {
+        setIsChecked(true);
+      } else {
+        setIsChecked(false);
+      }
     }
   }, [data]);
   // console.log(questionBody.en);

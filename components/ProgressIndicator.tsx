@@ -11,7 +11,7 @@ export enum ProgressStatus {
 
 export interface ProgressIndicatorInterface {
   status: ProgressStatus;
-  isCurrentPage: boolean;
+  currentQuestionIndex: number;
   index: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -20,7 +20,7 @@ const statusColor = ['#2ED47A', '#F95141', '#3145F5', '#D0D0D7'];
 
 const ProgressIndicator: React.FC<ProgressIndicatorInterface> = ({
   status,
-  isCurrentPage,
+  currentQuestionIndex,
   index,
   setCurrentQuestionIndex,
 }) => {
@@ -29,12 +29,14 @@ const ProgressIndicator: React.FC<ProgressIndicatorInterface> = ({
       style={[
         styles.container,
         {
-          backgroundColor: isCurrentPage ? statusColor[status] : 'white',
+          backgroundColor:
+            currentQuestionIndex === index ? statusColor[status] : 'white',
           borderColor: statusColor[status],
         },
       ]}
       onPress={() => {
         setCurrentQuestionIndex(index);
+        console.log(currentQuestionIndex);
       }}
     />
   );

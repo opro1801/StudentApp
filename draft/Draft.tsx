@@ -17,6 +17,8 @@ import BottomNavigationBar from '../components/BottomNavigationBar';
 export interface QuestionInterface {
   id: string;
   status: ProgressStatus;
+  answer: string;
+  correctAnswer: string;
 }
 
 export interface QuestionStatusInterface {
@@ -43,8 +45,18 @@ const Draft = () => {
           .slice(0, 6)
           .map((value: { __typename: string; id: string }, index: number) => {
             if (index === 0)
-              return { id: value.id, status: ProgressStatus.CURRENT };
-            return { id: value.id, status: ProgressStatus.INACTIVE };
+              return {
+                id: value.id,
+                status: ProgressStatus.CURRENT,
+                answer: '',
+                correctAnswer: '',
+              };
+            return {
+              id: value.id,
+              status: ProgressStatus.INACTIVE,
+              answer: '',
+              correctAnswer: '',
+            };
           }),
       );
       // setQuestionsStatus(

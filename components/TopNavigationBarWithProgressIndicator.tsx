@@ -27,7 +27,7 @@ const TopNavigationBarWithProgressIndicator: React.FC<
         return (
           <ProgressIndicator
             status={item.status}
-            isCurrentPage={index === currentQuestionIndex}
+            currentQuestionIndex={currentQuestionIndex}
             index={index}
             key={item.id}
             setCurrentQuestionIndex={setCurrentQuestionIndex}
@@ -35,7 +35,7 @@ const TopNavigationBarWithProgressIndicator: React.FC<
         );
       }),
     );
-  }, [questions]);
+  }, [questions, currentQuestionIndex]);
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
