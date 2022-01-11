@@ -14,11 +14,12 @@ import { QuestionInterface } from '../draft/Draft';
 interface TopNavigationBarWithProgressIndicatorInterface {
   questions: QuestionInterface[];
   currentQuestionIndex: number;
+  setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const TopNavigationBarWithProgressIndicator: React.FC<
   TopNavigationBarWithProgressIndicatorInterface
-> = ({ questions, currentQuestionIndex }) => {
+> = ({ questions, currentQuestionIndex, setCurrentQuestionIndex }) => {
   const [indicatorList, setIndicatorList] = useState<JSX.Element[]>([]);
   useEffect(() => {
     setIndicatorList(
@@ -29,6 +30,7 @@ const TopNavigationBarWithProgressIndicator: React.FC<
             isCurrentPage={index === currentQuestionIndex}
             index={index}
             key={item.id}
+            setCurrentQuestionIndex={setCurrentQuestionIndex}
           />
         );
       }),

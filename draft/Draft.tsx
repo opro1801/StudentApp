@@ -19,16 +19,22 @@ export interface QuestionInterface {
   status: ProgressStatus;
 }
 
+export interface QuestionStatusInterface {
+  status: ProgressStatus;
+}
+
 interface InitialQuestionInterface {
   id: string;
-  _typename: string;
+  __typename: string;
 }
 
 const Draft = () => {
   const { data, error, loading } = useQuery(GET_QUESTIONS_QUERY);
   // const questionIds = data.questions.slice(0, 6);
   const [questions, setQuestions] = useState<QuestionInterface[]>([]);
-  const [questionsStatus, setQuestionsStatus] = useState([]);
+  const [questionsStatus, setQuestionsStatus] = useState<
+    QuestionStatusInterface[]
+  >([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   useEffect(() => {
     if (data !== undefined) {
@@ -41,6 +47,12 @@ const Draft = () => {
             return { id: value.id, status: ProgressStatus.INACTIVE };
           }),
       );
+      // setQuestionsStatus(
+      //   data.questions.slice(0,6).map((value: InitialQuestionInterface, index: number) => {
+      //     if(index === 0) return {status: ProgressStatus.CURRENT};
+      //     return
+      //   })
+      // )
     }
   }, [data]);
   if (loading || questions.length === 0) return <Loading />;
@@ -53,11 +65,14 @@ const Draft = () => {
         <TopNavigationBarWithProgressIndicator
           questions={questions}
           currentQuestionIndex={currentQuestionIndex}
+          setCurrentQuestionIndex={setCurrentQuestionIndex}
         />
       </View>
       <QuestionContent
         questions={questions}
         currentQuestionIndex={currentQuestionIndex}
+        setQuestions={setQuestions}
+        setCurrentQuestionIndex={setCurrentQuestionIndex}
       />
     </View>
     // </QuestionContextProvider>

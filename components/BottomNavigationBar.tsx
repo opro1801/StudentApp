@@ -1,23 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface BottomNavigationBarInterface {
-  currentState: bottomNavigationBarState;
-  handleCheckAnswer: () => void;
   isChecked: boolean;
   setIsCheck: React.Dispatch<React.SetStateAction<boolean>>;
+  currentAnswer: string;
+  handleNextQuestion: () => void;
+  handleCheckAnswer: () => void;
 }
-
-export enum bottomNavigationBarState {
-  INITIAL,
-  AFTERPICKING,
-  AFTERCHECKING,
-}
-
 const BottomNavigationBar: React.FC<BottomNavigationBarInterface> = ({
-  currentState = bottomNavigationBarState.INITIAL,
   setIsCheck,
   isChecked,
+  handleNextQuestion,
+  currentAnswer,
   handleCheckAnswer,
 }) => {
   return (
@@ -27,30 +22,34 @@ const BottomNavigationBar: React.FC<BottomNavigationBarInterface> = ({
           <Text>Back</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={currentAnswer === ''}
           style={[
             styles.checkButton,
             {
-              borderColor: currentState === 0 ? '#A0A1AF' : '#3145F5',
-              backgroundColor: currentState === 2 ? '#3145F5' : '#ffffff',
+              borderColor: currentAnswer === '' ? '#A0A1AF' : '#3145F5',
+              backgroundColor: isChecked ? '#3145F5' : '#ffffff',
             },
           ]}
           onPress={() => {
-            if (!isChecked) {
+            if (!isChecked && currentAnswer !== '') {
               handleCheckAnswer();
+            }
+            if (isChecked) {
+              handleNextQuestion();
             }
           }}
         >
           <Text
             style={{
               color:
-                currentState === 0
+                currentAnswer === ''
                   ? '#a0a1af'
-                  : currentState === 1
+                  : !isChecked
                   ? '#3145f5'
                   : '#ffffff',
             }}
           >
-            {currentState === 2 ? 'Next' : 'Check'}
+            {isChecked ? 'Next' : 'Check'}
           </Text>
         </TouchableOpacity>
       </View>

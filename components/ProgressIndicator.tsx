@@ -13,6 +13,7 @@ export interface ProgressIndicatorInterface {
   status: ProgressStatus;
   isCurrentPage: boolean;
   index: number;
+  setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const statusColor = ['#2ED47A', '#F95141', '#3145F5', '#D0D0D7'];
@@ -21,6 +22,7 @@ const ProgressIndicator: React.FC<ProgressIndicatorInterface> = ({
   status,
   isCurrentPage,
   index,
+  setCurrentQuestionIndex,
 }) => {
   return (
     <Pressable
@@ -31,7 +33,9 @@ const ProgressIndicator: React.FC<ProgressIndicatorInterface> = ({
           borderColor: statusColor[status],
         },
       ]}
-      onPress={() => {}}
+      onPress={() => {
+        setCurrentQuestionIndex(index);
+      }}
     />
   );
 };

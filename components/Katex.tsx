@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { bool, func, object, string } from 'prop-types';
 import { WebView } from 'react-native-webview';
 import { Dispatch } from 'react';
-import { bottomNavigationBarState } from './BottomNavigationBar';
+// import LinearGradient from 'react-native-linear-gradient';
 
 function getContent(inlineStyle: string, expression: string, options: any) {
   return `<!DOCTYPE html>
@@ -30,13 +30,13 @@ function getContent(inlineStyle: string, expression: string, options: any) {
 const defaultStyle = {
   height: 'auto',
   width: 'auto',
-  backgroundColor: 'rgba(52, 52, 52, 0)', //transparent background
+  backgroundColor: 'rgba(52, 52, 52, 0)', //transparent background,
 };
 
 //will center the KaTeX within our webview & view container
 const defaultInlineStyle = `
 html, body {
-  margin: 0;
+  margin: 12;
   padding: 16;
   display:flex;
   justify-content: center;
@@ -56,8 +56,7 @@ const CustomKatex = ({
   setCurrentAnswer,
   isChecked,
   correctAnswer,
-  currentState,
-  setCurrentState,
+  solution,
   ...options
 }: CustomKatexInterface) => {
   // const width = ; // hacky attempt at dynamic width as flex width wasn't working
@@ -79,31 +78,56 @@ const CustomKatex = ({
       ]}
       onPress={() => {
         if (setCurrentAnswer != null) setCurrentAnswer(optionName);
-        if (
-          currentState === bottomNavigationBarState.INITIAL &&
-          setCurrentState != null
-        ) {
-          setCurrentState(bottomNavigationBarState.AFTERPICKING);
-        }
       }}
+      disabled={isChecked}
     >
       <WebView
         style={style}
         source={{ html: getContent(inlineStyle, expression, options) }}
       />
+      {isChecked && correctAnswer === optionName && (
+        // <LinearGradient
+        //   start={{ x: 0.0, y: 1.0 }}
+        //   end={{ x: 1.0, y: 1.0 }}
+        //   style={{
+        //     height: 48,
+        //     width: '100%',
+        //     alignItems: 'center',
+        //     justifyContent: 'center',
+        //   }}
+        //   colors={['#A950EE', '#2339FA']}
+        // >
+        <View style={styles.explanation}>
+          <Text style={styles.explanationHeader}>Explanation</Text>
+          <Text>{solution}</Text>
+        </View>
+        // </LinearGradient>
+      )}
     </TouchableOpacity>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   answer: {
     borderRadius: 4,
     padding: 16,
     borderWidth: 1.6,
     marginBottom: 12,
     height: 100,
+    justifyContent: 'space-between',
   },
-};
+  explanation: {
+    borderWidth: 1.6,
+    borderColor: '#2339FA',
+    borderRadius: 4,
+    padding: 12,
+  },
+  explanationHeader: {
+    marginBottom: 8,
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+});
 
 interface CustomKatexInterface {
   expression: string;
@@ -123,10 +147,7 @@ interface CustomKatexInterface {
   isChecked: boolean;
   setIsChecked: Dispatch<React.SetStateAction<boolean>> | null;
   correctAnswer: string;
-  currentState: bottomNavigationBarState;
-  setCurrentState: Dispatch<
-    React.SetStateAction<bottomNavigationBarState>
-  > | null;
+  solution: string;
 }
 
 CustomKatex.defaultProps = {

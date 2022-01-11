@@ -8,16 +8,17 @@ import { Loading } from './Loading';
 import { WebView } from 'react-native-webview';
 import Markdown from 'react-native-markdown-renderer';
 import { QuestionInterface } from '../draft/Draft';
-import BottomNavigationBar, {
-  bottomNavigationBarState,
-} from './BottomNavigationBar';
+import BottomNavigationBar from './BottomNavigationBar';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import CustomKatex from './Katex';
 import Katex from 'react-native-katex';
+import { ProgressStatus } from './ProgressIndicator';
 
 interface QuestionContentInterface {
   questions: QuestionInterface[];
   currentQuestionIndex: number;
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionInterface[]>>;
+  setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface AnswerInterface {
@@ -34,28 +35,56 @@ interface AnswerInterface {
 const QuestionContent: React.FC<QuestionContentInterface> = ({
   questions,
   currentQuestionIndex,
+  setQuestions,
+  setCurrentQuestionIndex,
 }) => {
   const [questionBody, setQuestionBody] = useState('');
-  const [currentState, setCurrentState] = useState(
-    bottomNavigationBarState.INITIAL,
-  );
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+  const [solution, setSolution] = useState('');
 
   const handleCheckAnswer = () => {
     setIsChecked(true);
-    setCurrentState(bottomNavigationBarState.AFTERCHECKING);
+    setQuestions(
+      questions.map((value: QuestionInterface, index: number) => {
+        if (index === currentQuestionIndex)
+          if (currentAnswer === correctAnswer)
+            return { id: value.id, status: ProgressStatus.CORRECT };
+          else return { id: value.id, status: ProgressStatus.INCORRECT };
+        return value;
+      }),
+    );
   };
 
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setQuestions(
+        questions.map((value: QuestionInterface, index: number) => {
+          if (index === currentQuestionIndex + 1) {
+            return { id: value.id, status: ProgressStatus.CURRENT };
+          }
+          return value;
+        }),
+      );
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setCurrentAnswer('');
+      setIsChecked(false);
+    }
+  };
+  useEffect(() => {
+    console.log(questions);
+  }, [questions]);
   const { data, loading, error } = useQuery(GET_QUESTION_DETAIL_QUERY, {
     variables: { id: questions[currentQuestionIndex].id },
   });
   useEffect(() => {
-    console.log(questions[currentQuestionIndex].id);
+    // console.log(questions[currentQuestionIndex].id);
     if (data != undefined) {
       setQuestionBody(data.question.content.body.en);
       setCorrectAnswer(data.question.content.correctAnswer);
+      setSolution(data.question.content.solution.en);
+      console.log(data.question.content.solution.en);
     }
   }, [data]);
   // console.log(questionBody.en);
@@ -68,7 +97,7 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
           (value: AnswerInterface, index: number) => {
             return (
               <CustomKatex
-                key={value.body.en}
+                key={`${value.body.en} ${(Math.random() * 1000).toString()}`}
                 expression={value.body.en.slice(1, -1)}
                 currentAnswer={currentAnswer}
                 setCurrentAnswer={setCurrentAnswer}
@@ -76,18 +105,18 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
                 isChecked={isChecked}
                 setIsChecked={setIsChecked}
                 correctAnswer={correctAnswer}
-                currentState={currentState}
-                setCurrentState={setCurrentState}
+                solution={solution}
               />
             );
           },
         )}
       </ScrollView>
       <BottomNavigationBar
-        currentState={currentState}
         handleCheckAnswer={handleCheckAnswer}
-        isChecked={false}
+        isChecked={isChecked}
         setIsCheck={setIsChecked}
+        currentAnswer={currentAnswer}
+        handleNextQuestion={handleNextQuestion}
       />
     </View>
   );
