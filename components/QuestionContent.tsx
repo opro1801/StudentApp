@@ -99,6 +99,13 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
       setIsChecked(false);
     } else handleNextSet();
   };
+
+  const handleBack = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
   useEffect(() => {
     console.log(questions);
   }, [questions]);
@@ -153,6 +160,7 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
         setIsCheck={setIsChecked}
         currentAnswer={currentAnswer}
         handleNextQuestion={handleNextQuestion}
+        handleBack={handleBack}
       />
     </View>
   );

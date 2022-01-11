@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import StyleSheetLibrary from '../stylesheet/StyleSheetLibrary';
 
 interface BottomNavigationBarInterface {
   isChecked: boolean;
@@ -7,6 +8,7 @@ interface BottomNavigationBarInterface {
   currentAnswer: string;
   handleNextQuestion: () => void;
   handleCheckAnswer: () => void;
+  handleBack: () => void;
 }
 const BottomNavigationBar: React.FC<BottomNavigationBarInterface> = ({
   setIsCheck,
@@ -14,12 +16,18 @@ const BottomNavigationBar: React.FC<BottomNavigationBarInterface> = ({
   handleNextQuestion,
   currentAnswer,
   handleCheckAnswer,
+  handleBack,
 }) => {
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text>Back</Text>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => {
+            handleBack();
+          }}
+        >
+          <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
         <TouchableOpacity
           disabled={currentAnswer === ''}
@@ -41,6 +49,7 @@ const BottomNavigationBar: React.FC<BottomNavigationBarInterface> = ({
         >
           <Text
             style={{
+              fontSize: StyleSheetLibrary.fontSizeText,
               color:
                 currentAnswer === ''
                   ? '#a0a1af'
@@ -79,6 +88,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 1.6,
     borderRadius: 4,
+  },
+  backText: {
+    fontSize: StyleSheetLibrary.fontSizeText,
+    fontWeight: '400',
+    color: '#A0A1AF',
   },
 });
 

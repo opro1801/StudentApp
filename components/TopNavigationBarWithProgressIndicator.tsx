@@ -10,16 +10,25 @@ import ProgressIndicator, {
 import StyleSheetLibrary from '../stylesheet/StyleSheetLibrary';
 import { useQuestionContext } from '../contexts/QuestionContext';
 import { QuestionInterface } from '../draft/Draft';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface TopNavigationBarWithProgressIndicatorInterface {
   questions: QuestionInterface[];
   currentQuestionIndex: number;
   setCurrentQuestionIndex: React.Dispatch<React.SetStateAction<number>>;
+  currentSet: number;
+  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TopNavigationBarWithProgressIndicator: React.FC<
   TopNavigationBarWithProgressIndicatorInterface
-> = ({ questions, currentQuestionIndex, setCurrentQuestionIndex }) => {
+> = ({
+  questions,
+  currentQuestionIndex,
+  setCurrentQuestionIndex,
+  currentSet,
+  setIsModalVisible,
+}) => {
   const [indicatorList, setIndicatorList] = useState<JSX.Element[]>([]);
   useEffect(() => {
     setIndicatorList(
@@ -40,8 +49,14 @@ const TopNavigationBarWithProgressIndicator: React.FC<
     <View style={styles.container}>
       <View style={styles.inner}>
         <View style={styles.header}>
-          <CloseIcon />
-          <Text style={styles.headerText}>Set X</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setIsModalVisible(true);
+            }}
+          >
+            <CloseIcon />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>Set {currentSet + 1}</Text>
           <MoreIcon color='white' strokeColor='white' />
         </View>
         <View style={styles.progress}>

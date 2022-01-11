@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import TopNavigationBarWithProgressIndicator from '../components/TopNavigationBarWithProgressIndicator';
 import StatusBarBackGround, {
   statusBarIgnore,
@@ -13,6 +13,10 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { ProgressStatus } from '../components/ProgressIndicator';
 import BottomNavigationBar from '../components/BottomNavigationBar';
+import Popup from '../components/PopUp';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+const { height } = Dimensions.get('screen');
 
 export interface QuestionInterface {
   id: string;
@@ -42,6 +46,7 @@ const Draft = () => {
   // const [questionSets, setQuestionSets] = useState<QuestionSetInterface[]>([]);
   const [currentSet, setCurrentSet] = useState(0);
   const [questions, setQuestions] = useState<QuestionInterface[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [questionsStatus, setQuestionsStatus] = useState<
     QuestionStatusInterface[]
   >([]);
@@ -96,9 +101,11 @@ const Draft = () => {
         <StatusBar style={'light'} />
         <View style={{ height: statusBarIgnore, backgroundColor: '#5F45FF' }} />
         <TopNavigationBarWithProgressIndicator
+          currentSet={currentSet}
           questions={questions}
           currentQuestionIndex={currentQuestionIndex}
           setCurrentQuestionIndex={setCurrentQuestionIndex}
+          setIsModalVisible={setIsModalVisible}
         />
       </View>
       <QuestionContent
@@ -109,6 +116,24 @@ const Draft = () => {
         setCurrentSet={setCurrentSet}
         currentSet={currentSet}
       />
+      <Popup
+        visible={isModalVisible}
+        onClose={() => {
+          setIsModalVisible(false);
+        }}
+      >
+        <View style={styles.quitModalContainer}>
+          <Text>Confirm to quit this task?</Text>
+          <View style={styles.modalBottomBar}>
+            <TouchableOpacity>
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text>Yes</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Popup>
     </View>
     // </QuestionContextProvider>
   );
@@ -118,6 +143,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+  },
+  quitModalContainer: {
+    paddingTop: 32,
+    paddingBottom: 24,
+    paddingHorizontal: 32,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#0A0A0C',
+    backgroundColor: '#FFFFFF',
+    position: 'absolute',
+    marginTop: height / 2 - 64,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  modalBottomBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
 });
 
