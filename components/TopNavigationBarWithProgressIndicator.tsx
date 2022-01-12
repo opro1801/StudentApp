@@ -29,22 +29,6 @@ const TopNavigationBarWithProgressIndicator: React.FC<
   currentSet,
   setIsModalVisible,
 }) => {
-  const [indicatorList, setIndicatorList] = useState<JSX.Element[]>([]);
-  useEffect(() => {
-    setIndicatorList(
-      questions.map((item, index) => {
-        return (
-          <ProgressIndicator
-            status={item.status}
-            currentQuestionIndex={currentQuestionIndex}
-            index={index}
-            key={item.id}
-            setCurrentQuestionIndex={setCurrentQuestionIndex}
-          />
-        );
-      }),
-    );
-  }, [questions, currentQuestionIndex]);
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
@@ -60,23 +44,17 @@ const TopNavigationBarWithProgressIndicator: React.FC<
           <MoreIcon color='white' strokeColor='white' />
         </View>
         <View style={styles.progress}>
-          {/* <FlatList
-            style={{ flex: 1 }}
-            horizontal
-            scrollEnabled={false}
-            data={questions}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item, index }) => {
-              return (
-                <ProgressIndicator
-                  status={item.status}
-                  isCurrentPage={index === currentQuestionIndex}
-                  index={index}
-                />
-              );
-            }}
-          /> */}
-          {indicatorList}
+          {questions.map((item, index) => {
+            return (
+              <ProgressIndicator
+                status={item.status}
+                currentQuestionIndex={currentQuestionIndex}
+                index={index}
+                key={item.id}
+                setCurrentQuestionIndex={setCurrentQuestionIndex}
+              />
+            );
+          })}
         </View>
       </View>
     </View>

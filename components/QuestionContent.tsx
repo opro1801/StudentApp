@@ -4,15 +4,21 @@ import { View, StyleSheet, Text, Pressable } from 'react-native';
 import { GET_QUESTION_DETAIL_QUERY } from '../apiService/questionBank/questionBankGQL';
 import { useQuestionContext } from '../contexts/QuestionContext';
 import { Loading } from './Loading';
-// import Markdown from 'react-native-markdown-display';
-import { WebView } from 'react-native-webview';
-import Markdown from 'react-native-markdown-renderer';
+import Markdown from 'react-native-markdown-display';
+import { WebView, WebViewMessageEvent } from 'react-native-webview';
+// import Markdown from 'react-native-markdown-renderer';
 import { QuestionInterface } from '../draft/Draft';
 import BottomNavigationBar from './BottomNavigationBar';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import CustomKatex from './Katex';
 import Katex from 'react-native-katex';
 import { ProgressStatus } from './ProgressIndicator';
+import MathView from './MathView';
+import { QuestionAnswerKatexCss } from '../stylesheet/styles';
+import ReactDOMServer from 'react-dom/server';
+import { MathMarkdown } from './MathMarkdown';
+// import Markdown from './MathView';
+// import { WebView } from 'react-native-webview';
 
 interface QuestionContentInterface {
   questions: QuestionInterface[];
@@ -34,6 +40,12 @@ interface AnswerInterface {
   optionName: string;
 }
 
+export const injectedJavaScript = `
+window.ReactNativeWebView.postMessage(
+  Math.max(document.body.offsetHeight, document.body.scrollHeight)
+);
+`;
+
 const QuestionContent: React.FC<QuestionContentInterface> = ({
   questions,
   currentQuestionIndex,
@@ -47,7 +59,11 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [solution, setSolution] = useState('');
-
+  const [isRendering, setIsRendering] = useState(true);
+  const [webViewQuestionHeight, setWebViewQuestionHeight] = useState(0);
+  const onMessageQuestion = (event: WebViewMessageEvent) => {
+    setWebViewQuestionHeight(Number(event.nativeEvent.data));
+  };
   const handleNextSet = () => {
     setCurrentSet(currentSet + 1);
   };
@@ -106,9 +122,9 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
     }
   };
 
-  useEffect(() => {
-    console.log(questions);
-  }, [questions]);
+  // useEffect(() => {
+  //   console.log(questions);
+  // }, [questions]);
   const { data, loading, error } = useQuery(GET_QUESTION_DETAIL_QUERY, {
     variables: { id: questions[currentQuestionIndex].id },
   });
@@ -119,7 +135,7 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
       setCorrectAnswer(data.question.content.correctAnswer);
       setSolution(data.question.content.solution.en);
       setCurrentAnswer(questions[currentQuestionIndex].answer);
-      console.log(data.question.content.solution.en);
+      console.log(data.question.content);
       if (
         questions[currentQuestionIndex].status === ProgressStatus.CORRECT ||
         questions[currentQuestionIndex].status === ProgressStatus.INCORRECT
@@ -134,14 +150,40 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
   if (loading) return <Loading />;
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1 }}
+      >
         {/* <Katex expression={questionBody} style={styles.question} /> */}
+        {/* <Markdown>{questionBody}</Markdown> */}
+        <View style={{ height: webViewQuestionHeight, marginBottom: 12 }}>
+          <WebView
+            style={{ flex: 1 }}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            automaticallyAdjustContentInsets={false}
+            bounces={false}
+            scrollEnabled={false}
+            onMessage={onMessageQuestion}
+            javaScriptEnabled={true}
+            injectedJavaScript={injectedJavaScript}
+            source={{
+              html:
+                QuestionAnswerKatexCss('black') +
+                `${ReactDOMServer.renderToString(
+                  <MathMarkdown skipHtml={false} children={questionBody} />,
+                )}`,
+            }}
+          />
+        </View>
         {data.question.content.answers.map(
           (value: AnswerInterface, index: number) => {
             return (
-              <CustomKatex
+              <MathView
+                isRendering={isRendering}
+                katex={value.body.en}
                 key={`${value.body.en} ${(Math.random() * 1000).toString()}`}
-                expression={value.body.en.slice(1, -1)}
                 currentAnswer={currentAnswer}
                 setCurrentAnswer={setCurrentAnswer}
                 optionName={value.optionName}
@@ -149,6 +191,7 @@ const QuestionContent: React.FC<QuestionContentInterface> = ({
                 setIsChecked={setIsChecked}
                 correctAnswer={correctAnswer}
                 solution={solution}
+                setIsRendering={setIsRendering}
               />
             );
           },
