@@ -2279,10 +2279,10 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
-"@react-native-async-storage/async-storage@~1.15.0":
-  version "1.15.14"
-  resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.15.14.tgz"
-  integrity sha512-eJF2horabXazwszCyyXDe4w7sBSWlB0WPA8akKXuN2n7WXKHYeQJPN41lS9OahrhSZuZwqftNFE9VWgPXA8wyA==
+"@react-native-async-storage/async-storage@^1.15.17":
+  version "1.15.17"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.17.tgz#0dae263a52e476ffce871086f1fef5b8e44708eb"
+  integrity sha512-NQCFs47aFEch9kya/bqwdpvSdZaVRtzU7YB02L8VrmLSLpKgQH/1VwzFUBPcc1/JI1s3GU4yOLVrEbwxq+Fqcw==
   dependencies:
     merge-options "^3.0.4"
 
@@ -11705,6 +11705,11 @@ react-native-async-storage@^0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/react-native-async-storage/-/react-native-async-storage-0.0.1.tgz"
   integrity sha1-Xy71/zDq5ktCSOJltTTnLqQc3Gk=
+
+react-native-auto-scale-image@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-auto-scale-image/-/react-native-auto-scale-image-1.0.1.tgz#a429e70284db2e1aad3b5b6a15bbb371418d0778"
+  integrity sha512-cimwT+1ikWhgni34jpqJOutG9tnqX8G2PwzqRVopy3wupUz37ediYb1fA/ljZZcPrkGHN4UckO1MNwCohrBywQ==
 
 react-native-circular-progress-indicator@^2.0.5:
   version "2.0.5"
